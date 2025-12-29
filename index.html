@@ -1,0 +1,1721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RED-X MAILER 10.1 - Premium Email Management System</title>
+    <style>
+        :root {
+            --primary-color: #ff0000;
+            --primary-dark: #cc0000;
+            --bg-dark: #1a1a1a;
+            --bg-darker: #0a0a0a;
+            --bg-card: #2d2d2d;
+            --text-light: #ffffff;
+            --text-gray: #bdc3c7;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+            --warning-color: #f39c12;
+            --info-color: #3498db;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Header Styles */
+        .app-header {
+            background: var(--bg-darker);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+        
+        .app-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .app-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-stats {
+            background: var(--bg-card);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .stat-value {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        /* Navigation Styles */
+        .app-nav {
+            background: var(--bg-card);
+            padding: 0.5rem 2rem;
+            display: flex;
+            gap: 1rem;
+            border-bottom: 1px solid #404040;
+        }
+        
+        .nav-tab {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab:hover {
+            background: #404040;
+        }
+        
+        .nav-tab.active {
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Main Content */
+        .app-main {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .content-panel {
+            display: none;
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .content-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Login Panel */
+        .login-panel {
+            max-width: 500px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: left;
+        }
+        
+        .form-label {
+            font-weight: bold;
+            color: var(--text-light);
+        }
+        
+        .form-input {
+            padding: 0.8rem 1rem;
+            background: #1a1a1a;
+            border: 2px solid #404040;
+            border-radius: 5px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        
+        .form-input::placeholder {
+            color: #666;
+        }
+        
+        /* Button Styles */
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: #404040;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #505050;
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+        
+        .btn-small {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
+        }
+        
+        /* CSV Management */
+        .csv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .csv-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #404040;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-title {
+            font-weight: bold;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .card-count {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .card-preview {
+            background: #0a0a0a;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
+        }
+        
+        /* Email Sender */
+        .sender-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .control-group {
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #404040;
+        }
+        
+        .control-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .control-label {
+            min-width: 120px;
+            color: var(--text-gray);
+        }
+        
+        .control-input {
+            flex: 1;
+            padding: 0.5rem;
+            background: #0a0a0a;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            color: var(--text-light);
+        }
+        
+        .control-select {
+            padding: 0.5rem;
+            background: #0a0a0a;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            color: var(--text-light);
+            min-width: 150px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid #404040;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #0a0a0a;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-weight: bold;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Notification System */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .notification-success {
+            background: var(--success-color);
+        }
+        
+        .notification-error {
+            background: var(--error-color);
+        }
+        
+        .notification-warning {
+            background: var(--warning-color);
+        }
+        
+        .notification-info {
+            background: var(--info-color);
+        }
+        
+        /* Tags Manager */
+        .tags-manager {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 8px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .tags-content {
+            font-family: 'Consolas', monospace;
+            white-space: pre-wrap;
+            background: #0a0a0a;
+            padding: 1.5rem;
+            border-radius: 5px;
+            border: 1px solid #333;
+            margin-top: 1rem;
+        }
+        
+        /* Modal System */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .app-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .csv-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sender-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .control-label {
+                min-width: auto;
+            }
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* File Preview */
+        .file-preview {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 1rem;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .status-online {
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--success-color);
+        }
+        
+        .status-offline {
+            background: rgba(231, 76, 60, 0.2);
+            color: var(--error-color);
+        }
+        
+        .status-busy {
+            background: rgba(243, 156, 18, 0.2);
+            color: var(--warning-color);
+        }
+        
+        /* Tab Content */
+        .tab-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .tab-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .ml-1 { margin-left: 1rem; }
+        .mr-1 { margin-right: 1rem; }
+        
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-1 { gap: 1rem; }
+        
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-section">
+                <div class="logo-icon">✉️</div>
+                <div>
+                    <h1 class="app-title">RED-X MAILER 10.1</h1>
+                    <p class="app-subtitle">Premium Email Management System</p>
+                </div>
+            </div>
+            
+            <div class="user-info" id="userInfo">
+                <div class="user-stats">
+                    <span>User: </span>
+                    <span class="stat-value" id="usernameDisplay">Not Logged In</span>
+                </div>
+                <div class="user-stats">
+                    <span>Daily Limit: </span>
+                    <span class="stat-value" id="dailyLimit">0</span>
+                </div>
+                <div class="user-stats">
+                    <span>Sent Today: </span>
+                    <span class="stat-value" id="sentToday">0</span>
+                </div>
+                <button class="btn btn-danger btn-small" onclick="logout()" id="logoutBtn" style="display: none;">
+                    Logout
+                </button>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="app-nav" id="mainNav" style="display: none;">
+            <button class="nav-tab active" onclick="switchTab('login')">🔐 Login</button>
+            <button class="nav-tab" onclick="switchTab('csv')">📊 CSV Management</button>
+            <button class="nav-tab" onclick="switchTab('email')">📧 Email Sender</button>
+            <button class="nav-tab" onclick="switchTab('tags')">🏷️ Tags Reference</button>
+            <button class="nav-tab" onclick="switchTab('contacts')">👥 Manual Contacts</button>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Login Panel -->
+            <div class="content-panel active" id="loginPanel">
+                <div class="login-panel">
+                    <h2 class="tab-title">🔐 Secure Login</h2>
+                    <p class="text-center mb-2">Login to access the RED-X MAILER system</p>
+                    
+                    <div class="login-form">
+                        <div class="form-group">
+                            <label class="form-label" for="username">Username:</label>
+                            <input type="text" id="username" class="form-input" placeholder="Enter your username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password:</label>
+                            <input type="password" id="password" class="form-input" placeholder="Enter your password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="status-indicator status-offline" id="connectionStatus">
+                                🔍 Connecting to authentication server...
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="login()" id="loginBtn">
+                            🔓 LOGIN TO RED-X MAILER
+                        </button>
+                        
+                        <div class="text-center mt-2">
+                            <p>System IP: <span id="systemIp">Loading...</span></p>
+                            <p>Date: <span id="currentDate">Loading...</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CSV Management Panel -->
+            <div class="content-panel" id="csvPanel">
+                <div class="tab-header">
+                    <h2 class="tab-title">📊 CSV File Management</h2>
+                    <button class="btn btn-primary" onclick="refreshAllFiles()">
+                        🔄 Refresh All
+                    </button>
+                </div>
+                
+                <div class="control-group mb-2">
+                    <div class="control-title">🔢 Default Input Number For All Operations</div>
+                    <div class="control-row">
+                        <span class="control-label">Default number:</span>
+                        <input type="number" id="defaultNumber" class="control-input" value="15" min="1" max="1000">
+                        <button class="btn btn-secondary" onclick="applyDefaultToAll()">
+                            Apply to All
+                        </button>
+                    </div>
+                    <button class="btn btn-primary w-full mt-1" onclick="runAllOperations()">
+                        🚀 RUN ALL OPERATIONS
+                    </button>
+                </div>
+                
+                <div class="csv-grid" id="csvGrid">
+                    <!-- CSV files will be loaded here dynamically -->
+                </div>
+            </div>
+            
+            <!-- Email Sender Panel -->
+            <div class="content-panel" id="emailPanel">
+                <div class="tab-header">
+                    <h2 class="tab-title">📧 RED-X MAILER</h2>
+                    <div class="flex items-center gap-1">
+                        <button class="btn btn-primary" onclick="showTagsManager()">
+                            🏷️ Tags
+                        </button>
+                        <button class="btn btn-secondary" onclick="updateUserStats()">
+                            🔄 Limit
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="sender-controls">
+                    <!-- Source Selection -->
+                    <div class="control-group">
+                        <div class="control-title">📋 Contacts Source</div>
+                        <div class="control-row">
+                            <span class="control-label">Source:</span>
+                            <select id="contactsSource" class="control-select">
+                                <option value="contacts.csv">contacts.csv</option>
+                                <option value="manual_contacts.csv">Manual Contacts</option>
+                            </select>
+                            <button class="btn btn-secondary" onclick="showManualContacts()">
+                                📝 Edit Manual
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Sending Mode -->
+                    <div class="control-group">
+                        <div class="control-title">⚙️ Sending Mode</div>
+                        <div class="control-row">
+                            <span class="control-label">Mode:</span>
+                            <select id="sendingMode" class="control-select">
+                                <option value="rotate">Rotate</option>
+                                <option value="thread">Thread</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="gmailApi" checked>
+                            <label for="gmailApi">Gmail API</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="gmailDriveApi">
+                            <label for="gmailDriveApi">Gmail DRIVE API</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Attachment Settings -->
+                    <div class="control-group">
+                        <div class="control-title">📎 Attachment Settings</div>
+                        <div class="control-row">
+                            <span class="control-label">Attachment:</span>
+                            <select id="attachmentType" class="control-select">
+                                <option value="pdf">PDF</option>
+                                <option value="jpg">JPG</option>
+                                <option value="png">PNG</option>
+                                <option value="heic">HEIC</option>
+                                <option value="gif">GIF</option>
+                                <option value="bmp">BMP</option>
+                                <option value="webp">WEBP</option>
+                                <option value="docx">DOCX</option>
+                                <option value="xlsx">XLSX</option>
+                                <option value="direct_pdf">Direct PDF</option>
+                                <option value="direct_inline_body">Direct Inline Body</option>
+                                <option value="blank">No Attachment</option>
+                            </select>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Inline:</span>
+                            <select id="inlineAttachment" class="control-select">
+                                <option value="regular">Regular</option>
+                                <option value="inline">Inline</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Email Count -->
+                    <div class="control-group">
+                        <div class="control-title">📧 Email Count</div>
+                        <div class="control-row">
+                            <span class="control-label">Send Count:</span>
+                            <input type="number" id="emailCount" class="control-input" value="1" min="1" max="10000">
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Per API:</span>
+                            <input type="number" id="perApiLimit" class="control-input" value="350" min="1" max="1000">
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Rotate Every:</span>
+                            <input type="number" id="rotateApi" class="control-input" value="1" min="1" max="100">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Live Data -->
+                <div class="control-group mb-2">
+                    <div class="control-title">🔄 Live Data</div>
+                    <div class="control-row">
+                        <button class="btn btn-primary" onclick="fetchLiveData()" id="fetchLiveDataBtn">
+                            📥 Fetch Live Data
+                        </button>
+                        <div class="status-indicator status-offline" id="liveDataStatus">
+                            Click to load
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Progress Section -->
+                <div class="progress-container">
+                    <div class="progress-text" id="progressText">Ready to send emails...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="flex justify-center gap-1 mt-2">
+                        <button class="btn btn-primary" onclick="startEmailSending()" id="startEmailBtn">
+                            🚀 START SENDING
+                        </button>
+                        <button class="btn btn-danger" onclick="stopEmailSending()" id="stopEmailBtn">
+                            🛑 STOP
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- File Previews -->
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="control-group">
+                        <div class="control-title">📄 Body Content</div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary btn-small" onclick="openFile('body.txt')">
+                                ✏️ Edit
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="clearFile('body.txt')">
+                                🗑️ Clear
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="refreshFilePreview('body.txt', 'bodyPreview')">
+                                🔄 Refresh
+                            </button>
+                        </div>
+                        <div class="file-preview" id="bodyPreview">
+                            Loading body.txt...
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <div class="control-title">📎 Attachment Config</div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary btn-small" onclick="openFile('manage_attachment_name.txt')">
+                                ✏️ Edit
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="clearFile('manage_attachment_name.txt')">
+                                🗑️ Clear
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="refreshFilePreview('manage_attachment_name.txt', 'attachmentPreview')">
+                                🔄 Refresh
+                            </button>
+                        </div>
+                        <div class="file-preview" id="attachmentPreview">
+                            Loading attachment config...
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tags Reference Panel -->
+            <div class="content-panel" id="tagsPanel">
+                <div class="tab-header">
+                    <h2 class="tab-title">🏷️ Complete Tags Reference</h2>
+                    <div class="flex items-center gap-1">
+                        <button class="btn btn-primary" onclick="copyTagsToClipboard()">
+                            📋 Copy All Tags
+                        </button>
+                        <button class="btn btn-secondary" onclick="addExamplesToFiles()">
+                            💾 Add Examples
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="tags-manager">
+                    <div class="tags-content" id="tagsContent">
+                        Loading tags reference...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Manual Contacts Panel -->
+            <div class="content-panel" id="contactsPanel">
+                <div class="tab-header">
+                    <h2 class="tab-title">📝 Manual Contacts Input</h2>
+                    <button class="btn btn-primary" onclick="saveManualContacts()">
+                        💾 Save Contacts
+                    </button>
+                </div>
+                
+                <div class="control-group mb-2">
+                    <div class="control-title">💡 Instructions</div>
+                    <p>• Enter email addresses line by line (one email per line)</p>
+                    <p>• Click 'Save Contacts' to save and use for email sending</p>
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-title">📧 Enter Email Addresses</div>
+                    <div class="card-actions">
+                        <button class="btn btn-secondary btn-small" onclick="clearContactsText()">
+                            🗑️ Clear All
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="pasteFromClipboard()">
+                            📋 Paste from Clipboard
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="loadFromFile()">
+                            📁 Load from File
+                        </button>
+                        <div class="status-indicator" id="contactsStats">
+                            Emails: 0
+                        </div>
+                    </div>
+                    <textarea id="contactsText" class="form-input" rows="15" 
+                              placeholder="Enter email addresses, one per line..."
+                              oninput="updateContactsStats()"></textarea>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Modals -->
+        <div class="modal-overlay" id="filePreviewModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modalTitle">File Preview</h3>
+                    <button class="modal-close" onclick="closeModal('filePreviewModal')">×</button>
+                </div>
+                <div class="file-preview" id="modalPreview"></div>
+                <div class="flex justify-center gap-1 mt-2">
+                    <button class="btn btn-secondary" onclick="closeModal('filePreviewModal')">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Notifications -->
+        <div id="notificationsContainer"></div>
+    </div>
+
+    <script>
+        // Global state
+        let currentUser = null;
+        let userStats = null;
+        let isLoggedIn = false;
+        let emailSendingActive = false;
+        let currentProgress = 0;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSystemInfo();
+            loadTagsReference();
+            checkConnection();
+            loadCSVFiles();
+            refreshFilePreviews();
+            
+            // Initialize event listeners
+            document.getElementById('gmailApi').addEventListener('change', function() {
+                if (this.checked) {
+                    document.getElementById('gmailDriveApi').checked = false;
+                }
+            });
+            
+            document.getElementById('gmailDriveApi').addEventListener('change', function() {
+                if (this.checked) {
+                    document.getElementById('gmailApi').checked = false;
+                }
+            });
+            
+            // Auto-refresh every 30 seconds
+            setInterval(refreshUserStats, 30000);
+        });
+        
+        // System Info
+        function updateSystemInfo() {
+            // Get current date
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('currentDate').textContent = dateStr;
+            
+            // Try to get IP (simplified)
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('systemIp').textContent = data.ip;
+                })
+                .catch(() => {
+                    document.getElementById('systemIp').textContent = 'unknown';
+                });
+        }
+        
+        // Connection Check
+        function checkConnection() {
+            // This would connect to backend.py
+            // For now, simulate connection
+            setTimeout(() => {
+                document.getElementById('connectionStatus').className = 'status-indicator status-online';
+                document.getElementById('connectionStatus').textContent = '✅ Connected to authentication server';
+            }, 1500);
+        }
+        
+        // Login Function
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!username || !password) {
+                showNotification('Please enter both username and password', 'error');
+                return;
+            }
+            
+            const loginBtn = document.getElementById('loginBtn');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<span class="spinner"></span> Authenticating...';
+            loginBtn.disabled = true;
+            
+            // Simulate backend login
+            setTimeout(() => {
+                // This would be a call to backend.login()
+                // For demonstration, we'll simulate success
+                const success = true; // Replace with actual backend call
+                
+                if (success) {
+                    currentUser = username;
+                    isLoggedIn = true;
+                    
+                    showNotification('Login successful!', 'success');
+                    
+                    // Update UI
+                    document.getElementById('usernameDisplay').textContent = username;
+                    document.getElementById('mainNav').style.display = 'flex';
+                    document.getElementById('logoutBtn').style.display = 'inline-flex';
+                    
+                    // Switch to CSV management tab
+                    switchTab('csv');
+                    
+                    // Load user stats
+                    loadUserStats();
+                } else {
+                    showNotification('Login failed. Please check your credentials.', 'error');
+                }
+                
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
+            }, 2000);
+        }
+        
+        // Logout Function
+        function logout() {
+            currentUser = null;
+            isLoggedIn = false;
+            userStats = null;
+            
+            // Update UI
+            document.getElementById('usernameDisplay').textContent = 'Not Logged In';
+            document.getElementById('mainNav').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+            
+            // Clear inputs
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            // Switch to login tab
+            switchTab('login');
+            
+            showNotification('Logged out successfully', 'info');
+        }
+        
+        // Tab Switching
+        function switchTab(tabName) {
+            // Hide all panels
+            document.querySelectorAll('.content-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected panel
+            document.getElementById(tabName + 'Panel').classList.add('active');
+            
+            // Set active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                if (tab.onclick.toString().includes(tabName)) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            // Load data for the tab
+            switch(tabName) {
+                case 'csv':
+                    loadCSVFiles();
+                    break;
+                case 'email':
+                    refreshFilePreviews();
+                    loadUserStats();
+                    break;
+                case 'tags':
+                    loadTagsReference();
+                    break;
+                case 'contacts':
+                    loadManualContacts();
+                    break;
+            }
+        }
+        
+        // Load CSV Files
+        function loadCSVFiles() {
+            const csvFiles = [
+                { id: 'subjects', name: 'subjects.csv', source: 'subjects data.csv', label: 'Subjects' },
+                { id: 'fromName', name: 'fromName.csv', source: 'from name data.csv', label: 'Names' },
+                { id: 'body_line', name: 'body_line.csv', source: 'body_line_data.csv', label: 'Body Lines' },
+                { id: 'subjects_data', name: 'subjects data.csv', source: null, label: 'Subjects Data' },
+                { id: 'from_name_data', name: 'from name data.csv', source: null, label: 'Names Data' },
+                { id: 'body_line_data', name: 'body_line_data.csv', source: null, label: 'Body Lines Data' }
+            ];
+            
+            const csvGrid = document.getElementById('csvGrid');
+            csvGrid.innerHTML = '';
+            
+            csvFiles.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'csv-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">📄 ${file.name}</div>
+                        <div class="card-count" id="count-${file.id}">0</div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-secondary btn-small" onclick="openFilePreview('${file.name}')">
+                            👁️ Preview
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="openFileInSystem('${file.name}')">
+                            ✏️ Edit
+                        </button>
+                        <button class="btn btn-danger btn-small" onclick="clearFile('${file.name}')">
+                            🗑️ Clear
+                        </button>
+                        ${file.source ? `
+                            <button class="btn btn-primary btn-small" onclick="refreshCSVFile('${file.name}', '${file.source}')">
+                                🔄 Refresh
+                            </button>
+                            <input type="number" id="countInput-${file.id}" class="control-input" style="width: 60px;" value="15" min="1">
+                        ` : ''}
+                    </div>
+                    <div class="card-preview" id="preview-${file.id}">
+                        Loading...
+                    </div>
+                `;
+                csvGrid.appendChild(card);
+                
+                // Load file stats
+                loadFileStats(file.name, file.id);
+            });
+        }
+        
+        // Load File Stats
+        function loadFileStats(filename, fileId) {
+            // This would call backend.get_file_stats()
+            // For now, simulate with local storage or mock data
+            setTimeout(() => {
+                const count = Math.floor(Math.random() * 50) + 10;
+                document.getElementById(`count-${fileId}`).textContent = count;
+                
+                // Create mock preview
+                let preview = '';
+                if (filename.includes('subject')) {
+                    preview = 'subject\nImportant Update\nUrgent Notification\nAccount Information\nDocument Available\nNew Message';
+                } else if (filename.includes('Name')) {
+                    preview = 'Name\nCustomer Service\nSupport Team\nBilling Department\nAdministration\nNotification System';
+                } else if (filename.includes('body_line')) {
+                    preview = 'body_line\nImportant update regarding your account.\nPlease review the attached document.\nYour transaction has been processed.\nDocument is ready for review.';
+                } else {
+                    preview = 'Data preview not available';
+                }
+                
+                document.getElementById(`preview-${fileId}`).textContent = preview;
+            }, 500);
+        }
+        
+        // Refresh CSV File
+        function refreshCSVFile(destinationFile, sourceFile) {
+            const fileId = destinationFile.replace(/[^a-zA-Z0-9]/g, '_');
+            const countInput = document.getElementById(`countInput-${fileId}`);
+            const count = parseInt(countInput?.value || document.getElementById('defaultNumber').value);
+            
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span>';
+            btn.disabled = true;
+            
+            // This would call backend.refresh_csv_file()
+            setTimeout(() => {
+                showNotification(`Refreshed ${destinationFile} with ${count} items from ${sourceFile}`, 'success');
+                
+                // Reload stats
+                loadFileStats(destinationFile, fileId);
+                
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+        
+        // Refresh All Files
+        function refreshAllFiles() {
+            showNotification('Refreshing all files...', 'info');
+            
+            // This would refresh all files via backend
+            setTimeout(() => {
+                loadCSVFiles();
+                showNotification('All files refreshed successfully', 'success');
+            }, 2000);
+        }
+        
+        // Apply Default to All
+        function applyDefaultToAll() {
+            const defaultNum = document.getElementById('defaultNumber').value;
+            
+            // Update all count inputs
+            document.querySelectorAll('[id^="countInput-"]').forEach(input => {
+                input.value = defaultNum;
+            });
+            
+            showNotification(`Applied ${defaultNum} to all operations`, 'success');
+        }
+        
+        // Run All Operations
+        function runAllOperations() {
+            showNotification('Running all operations with individual counts...', 'info');
+            
+            // This would call backend.run_all_operations()
+            setTimeout(() => {
+                showNotification('All operations completed successfully', 'success');
+                loadCSVFiles();
+            }, 3000);
+        }
+        
+        // File Operations
+        function openFilePreview(filename) {
+            // This would call backend.get_file_stats() for preview
+            document.getElementById('modalTitle').textContent = `Preview: ${filename}`;
+            document.getElementById('modalPreview').textContent = `Loading ${filename}...`;
+            document.getElementById('filePreviewModal').classList.add('active');
+            
+            setTimeout(() => {
+                // Mock preview data
+                let content = '';
+                if (filename === 'body.txt') {
+                    content = 'Hello $name,\n\nThis is an important message regarding your account.\n\nPlease review the attached document for complete details.\n\nBest regards,\n$fromName';
+                } else if (filename === 'manage_attachment_name.txt') {
+                    content = 'random_letter=10-20\nrandom_digits=10-20\ncustom=Invoice_{invoice_no}\nuse_all_formate=7-25';
+                } else if (filename.includes('.csv')) {
+                    content = 'Column1,Column2,Column3\nData1,Data2,Data3\nData4,Data5,Data6\nData7,Data8,Data9';
+                } else {
+                    content = `Content of ${filename}\n\nThis is a preview of the file content.`;
+                }
+                
+                document.getElementById('modalPreview').textContent = content;
+            }, 500);
+        }
+        
+        function openFileInSystem(filename) {
+            showNotification(`Opening ${filename} in system...`, 'info');
+            // This would call backend.open_file_in_system()
+        }
+        
+        function clearFile(filename) {
+            if (confirm(`Are you sure you want to clear ${filename}?`)) {
+                // This would call backend.clear_file_data()
+                showNotification(`Clearing ${filename}...`, 'warning');
+                
+                setTimeout(() => {
+                    showNotification(`${filename} cleared successfully`, 'success');
+                    
+                    // Reload if it's a CSV file
+                    if (filename.includes('.csv')) {
+                        const fileId = filename.replace(/[^a-zA-Z0-9]/g, '_');
+                        loadFileStats(filename, fileId);
+                    }
+                    
+                    // Refresh previews if it's a text file
+                    if (filename === 'body.txt' || filename === 'manage_attachment_name.txt') {
+                        refreshFilePreview(filename, filename.replace('.txt', 'Preview'));
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Refresh File Previews
+        function refreshFilePreviews() {
+            refreshFilePreview('body.txt', 'bodyPreview');
+            refreshFilePreview('manage_attachment_name.txt', 'attachmentPreview');
+        }
+        
+        function refreshFilePreview(filename, previewId) {
+            const previewElement = document.getElementById(previewId);
+            previewElement.textContent = `Loading ${filename}...`;
+            
+            // This would call backend.get_file_stats()
+            setTimeout(() => {
+                let content = '';
+                if (filename === 'body.txt') {
+                    content = 'Hello $name,\n\nThis is an important message regarding your account.\n\nPlease review the attached document for complete details.\n\nBest regards,\n$fromName';
+                } else if (filename === 'manage_attachment_name.txt') {
+                    content = 'random_letter=10-20\nrandom_digits=10-20\ncustom=Invoice_{invoice_no}\nuse_all_formate=7-25';
+                }
+                
+                previewElement.textContent = content;
+            }, 500);
+        }
+        
+        // Load User Stats
+        function loadUserStats() {
+            if (!isLoggedIn) return;
+            
+            // This would call backend.get_user_stats()
+            setTimeout(() => {
+                // Mock data
+                userStats = {
+                    daily_limit: 50000,
+                    sent_today: 1234,
+                    remaining: 48766
+                };
+                
+                document.getElementById('dailyLimit').textContent = userStats.daily_limit.toLocaleString();
+                document.getElementById('sentToday').textContent = userStats.sent_today.toLocaleString();
+                
+                // Update window title
+                document.title = `RED-X MAILER 10.1 - User: ${currentUser} - Daily Limit: ${userStats.daily_limit} - Sent Today: ${userStats.sent_today}`;
+            }, 500);
+        }
+        
+        function refreshUserStats() {
+            if (isLoggedIn) {
+                loadUserStats();
+            }
+        }
+        
+        function updateUserStats() {
+            loadUserStats();
+            showNotification('User stats updated', 'success');
+        }
+        
+        // Email Sending
+        function startEmailSending() {
+            if (!isLoggedIn) {
+                showNotification('Please login first', 'error');
+                return;
+            }
+            
+            const settings = {
+                count: parseInt(document.getElementById('emailCount').value),
+                source: document.getElementById('contactsSource').value,
+                mode: document.getElementById('sendingMode').value,
+                gmailApi: document.getElementById('gmailApi').checked,
+                gmailDriveApi: document.getElementById('gmailDriveApi').checked,
+                attachmentType: document.getElementById('attachmentType').value,
+                inlineAttachment: document.getElementById('inlineAttachment').value,
+                perApiLimit: parseInt(document.getElementById('perApiLimit').value),
+                rotateApi: parseInt(document.getElementById('rotateApi').value)
+            };
+            
+            // Validation
+            if (settings.count < 1) {
+                showNotification('Please enter a valid email count', 'error');
+                return;
+            }
+            
+            // Disable start button, enable stop button
+            document.getElementById('startEmailBtn').disabled = true;
+            document.getElementById('stopEmailBtn').disabled = false;
+            
+            emailSendingActive = true;
+            currentProgress = 0;
+            
+            showNotification(`Starting to send ${settings.count} emails...`, 'info');
+            
+            // This would call backend.run_email_sender()
+            // Simulate progress
+            simulateEmailProgress(settings.count);
+        }
+        
+        function stopEmailSending() {
+            emailSendingActive = false;
+            
+            // This would call backend.stop_email_sender()
+            showNotification('Email sending stopped', 'warning');
+            
+            // Re-enable start button
+            document.getElementById('startEmailBtn').disabled = false;
+            document.getElementById('stopEmailBtn').disabled = true;
+        }
+        
+        function simulateEmailProgress(total) {
+            if (!emailSendingActive) return;
+            
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            let sent = 0;
+            const interval = setInterval(() => {
+                if (!emailSendingActive || sent >= total) {
+                    clearInterval(interval);
+                    
+                    if (sent >= total) {
+                        progressFill.style.width = '100%';
+                        progressText.textContent = `Completed: ${total}/${total} emails sent`;
+                        showNotification(`Email sending completed: ${total} emails sent`, 'success');
+                        document.getElementById('startEmailBtn').disabled = false;
+                        document.getElementById('stopEmailBtn').disabled = true;
+                        updateUserStats();
+                    }
+                    return;
+                }
+                
+                sent += Math.floor(Math.random() * 5) + 1;
+                if (sent > total) sent = total;
+                
+                const progress = (sent / total) * 100;
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Progress: ${sent}/${total} emails sent (${progress.toFixed(1)}%)`;
+                
+                // Every 10 emails, show a notification
+                if (sent % 10 === 0) {
+                    showNotification(`Sent ${sent} emails so far...`, 'info');
+                }
+            }, 100);
+        }
+        
+        // Live Data
+        function fetchLiveData() {
+            const btn = document.getElementById('fetchLiveDataBtn');
+            const status = document.getElementById('liveDataStatus');
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span>';
+            btn.disabled = true;
+            status.className = 'status-indicator status-busy';
+            status.textContent = '🔄 Fetching...';
+            
+            // This would call backend.fetch_live_data()
+            setTimeout(() => {
+                showNotification('Live data loaded successfully', 'success');
+                
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                status.className = 'status-indicator status-online';
+                status.textContent = '✅ Data Loaded';
+                
+                // Refresh CSV files
+                loadCSVFiles();
+            }, 3000);
+        }
+        
+        // Tags Manager
+        function loadTagsReference() {
+            // This would call backend.get_tags_reference()
+            setTimeout(() => {
+                const tagsContent = document.getElementById('tagsContent');
+                tagsContent.textContent = `🏷️ COMPLETE TAGS REFERENCE - WORKS EVERYWHERE
+
+📄 INVOICE & TRANSACTION TAGS:
+{invoice_no} - JLKH8943H89U, INV-12345678, BL123456KH
+{bill_no} - 8975HGI694, BL123456XY, BILL1234567
+{uuid} - f47ac10b-58cc-4372-a567-0e02b2c3d479
+{unique_no} - UNQ12345, REF-1234-567, TRX123456ABC
+
+📅 DATE & TIME TAGS:
+{date} - Friday, September 26, 2025
+{time_no} - 12:45:08
+
+👤 RECIPIENT TAGS:
+{recipient_email} - user@example.com
+{recipient_name} - user (from email address)
+
+🎲 PARAMETER TAGS:
+{p_1}, {p_2}, {p_3}, {p_4}, {p_5}, {p_7}, {p_8}, {p_9}
+
+📝 BODY CONTENT TAGS:
+$name, $email, $subject, $fromName, $body_line, $address, $pin_code, $city_name
+$square_content, $log, $fake_domain_email
+
+🌐 HTML CONTENT TAGS:
+$tfn, $charge, $transaction_id, $product_no, $digi_no
+
+💡 USAGE INSTRUCTIONS:
+• ALL tags work in ALL fields
+• Tags are automatically replaced when sending emails
+• Multiple tags can be used together in the same field
+• Each email gets unique, non-duplicate values`;
+            }, 500);
+        }
+        
+        function showTagsManager() {
+            switchTab('tags');
+        }
+        
+        function copyTagsToClipboard() {
+            const tagsText = document.getElementById('tagsContent').textContent;
+            
+            // Create temporary textarea for copying
+            const textarea = document.createElement('textarea');
+            textarea.value = tagsText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            showNotification('All tags copied to clipboard!', 'success');
+        }
+        
+        function addExamplesToFiles() {
+            showNotification('Adding examples to all files...', 'info');
+            
+            // This would call backend.add_examples_to_files()
+            setTimeout(() => {
+                showNotification('Examples added to all configuration files!', 'success');
+                refreshFilePreviews();
+            }, 2000);
+        }
+        
+        // Manual Contacts
+        function loadManualContacts() {
+            // This would load contacts from backend
+            setTimeout(() => {
+                // Mock data
+                document.getElementById('contactsText').value = 'example1@domain.com\nexample2@domain.com\nexample3@domain.com';
+                updateContactsStats();
+            }, 500);
+        }
+        
+        function updateContactsStats() {
+            const text = document.getElementById('contactsText').value;
+            const emails = text.split('\n').filter(line => line.trim() !== '');
+            const stats = document.getElementById('contactsStats');
+            stats.textContent = `Emails: ${emails.length}`;
+        }
+        
+        function saveManualContacts() {
+            const emailsText = document.getElementById('contactsText').value;
+            
+            if (!emailsText.trim()) {
+                showNotification('No email addresses entered!', 'error');
+                return;
+            }
+            
+            // This would call backend.save_manual_contacts()
+            showNotification('Saving manual contacts...', 'info');
+            
+            setTimeout(() => {
+                showNotification('Manual contacts saved successfully!', 'success');
+                switchTab('email');
+            }, 1500);
+        }
+        
+        function clearContactsText() {
+            if (confirm('Are you sure you want to clear all email addresses?')) {
+                document.getElementById('contactsText').value = '';
+                updateContactsStats();
+            }
+        }
+        
+        function pasteFromClipboard() {
+            navigator.clipboard.readText()
+                .then(text => {
+                    document.getElementById('contactsText').value = text;
+                    updateContactsStats();
+                    showNotification('Content pasted from clipboard', 'success');
+                })
+                .catch(() => {
+                    showNotification('Could not read from clipboard', 'error');
+                });
+        }
+        
+        function loadFromFile() {
+            // Create file input
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt,.csv';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('contactsText').value = e.target.result;
+                        updateContactsStats();
+                        showNotification(`Loaded ${file.name}`, 'success');
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            
+            input.click();
+        }
+        
+        function showManualContacts() {
+            switchTab('contacts');
+        }
+        
+        // Modal Functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationsContainer');
+            const notification = document.createElement('div');
+            
+            let icon = 'ℹ️';
+            if (type === 'success') icon = '✅';
+            else if (type === 'error') icon = '❌';
+            else if (type === 'warning') icon = '⚠️';
+            
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span>${icon}</span>
+                <span>${message}</span>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 5000);
+        }
+        
+        // Utility function to call backend (placeholder)
+        function callBackend(method, data = {}) {
+            // This is where you would communicate with backend.py
+            // For a real implementation, you might use WebSocket or other IPC
+            return new Promise((resolve, reject) => {
+                // Simulate backend call
+                setTimeout(() => {
+                    resolve({ success: true, data: {} });
+                }, 500);
+            });
+        }
+        
+        // Initialize necessary files
+        function initializeFiles() {
+            // This would call backend.create_necessary_files_and_folders()
+            showNotification('Initializing necessary files and folders...', 'info');
+            
+            setTimeout(() => {
+                showNotification('All necessary files created successfully!', 'success');
+                loadCSVFiles();
+                refreshFilePreviews();
+            }, 2000);
+        }
+        
+        // Initialize on load
+        initializeFiles();
+    </script>
+</body>
+</html>

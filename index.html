@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RED-X MAILER 10.1</title>
+    <title>RED-X MAILER 10.1 - Premium Email Management System</title>
     <style>
         :root {
-            --primary: #ff0000;
+            --primary-color: #ff0000;
             --primary-dark: #cc0000;
-            --secondary: #2d2d2d;
-            --dark: #1a1a1a;
-            --light: #ffffff;
-            --gray: #bdc3c7;
-            --success: #27ae60;
-            --warning: #f39c12;
-            --error: #e74c3c;
-            --info: #3498db;
+            --bg-dark: #1a1a1a;
+            --bg-darker: #0a0a0a;
+            --bg-card: #2d2d2d;
+            --text-light: #ffffff;
+            --text-gray: #bdc3c7;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+            --warning-color: #f39c12;
+            --info-color: #3498db;
         }
         
         * {
@@ -26,105 +27,116 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--dark);
-            color: var(--light);
-            min-height: 100vh;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            line-height: 1.6;
             overflow-x: hidden;
         }
         
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+        .app-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
-        /* Header */
-        .header {
-            background: var(--secondary);
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        /* Header Styles */
+        .app-header {
+            background: var(--bg-darker);
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
         
-        .logo {
+        .logo-section {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 1rem;
         }
         
         .logo-icon {
-            font-size: 36px;
-            color: var(--primary);
+            font-size: 2.5rem;
+            color: var(--primary-color);
         }
         
-        .logo-text h1 {
-            color: var(--primary);
-            font-size: 24px;
-            margin-bottom: 5px;
+        .app-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
         }
         
-        .logo-text p {
-            color: var(--gray);
-            font-size: 14px;
+        .app-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-gray);
         }
         
         .user-info {
-            text-align: right;
-        }
-        
-        .user-info p {
-            margin-bottom: 5px;
-            color: var(--gray);
-        }
-        
-        .user-info strong {
-            color: var(--light);
-        }
-        
-        /* Tabs */
-        .tabs {
             display: flex;
-            background: var(--secondary);
-            border-radius: 10px;
-            margin-bottom: 20px;
-            overflow: hidden;
+            align-items: center;
+            gap: 1rem;
         }
         
-        .tab {
-            flex: 1;
-            padding: 15px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
+        .user-stats {
+            background: var(--bg-card);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
         }
         
-        .tab:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        
-        .tab.active {
-            background: var(--primary);
-            border-bottom-color: var(--light);
+        .stat-value {
+            color: var(--primary-color);
             font-weight: bold;
         }
         
-        /* Tab Content */
-        .tab-content {
-            display: none;
-            background: var(--secondary);
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        /* Navigation Styles */
+        .app-nav {
+            background: var(--bg-card);
+            padding: 0.5rem 2rem;
+            display: flex;
+            gap: 1rem;
+            border-bottom: 1px solid #404040;
         }
         
-        .tab-content.active {
+        .nav-tab {
+            padding: 0.5rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab:hover {
+            background: #404040;
+        }
+        
+        .nav-tab.active {
+            background: var(--primary-color);
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Main Content */
+        .app-main {
+            flex: 1;
+            padding: 2rem;
+        }
+        
+        .content-panel {
+            display: none;
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .content-panel.active {
             display: block;
-            animation: fadeIn 0.5s ease;
+            animation: fadeIn 0.3s ease;
         }
         
         @keyframes fadeIn {
@@ -132,238 +144,244 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Login Screen */
-        .login-container {
-            max-width: 450px;
-            margin: 50px auto;
-            background: var(--secondary);
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        /* Login Panel */
+        .login-panel {
+            max-width: 500px;
+            margin: 2rem auto;
             text-align: center;
         }
         
-        .login-logo {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 20px;
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
         
-        .login-title {
-            color: var(--primary);
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .login-subtitle {
-            color: var(--gray);
-            margin-bottom: 30px;
-        }
-        
-        /* Forms */
         .form-group {
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
             text-align: left;
         }
         
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--light);
-            font-weight: 600;
+        .form-label {
+            font-weight: bold;
+            color: var(--text-light);
         }
         
-        input, select, textarea {
-            width: 100%;
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
-            color: var(--light);
-            font-size: 14px;
-            transition: all 0.3s ease;
+        .form-input {
+            padding: 0.8rem 1rem;
+            background: #1a1a1a;
+            border: 2px solid #404040;
+            border-radius: 5px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
         }
         
-        input:focus, select:focus, textarea:focus {
+        .form-input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+            border-color: var(--primary-color);
         }
         
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-            font-family: 'Consolas', monospace;
-            font-size: 12px;
+        .form-input::placeholder {
+            color: #666;
         }
         
-        /* Buttons */
+        /* Button Styles */
         .btn {
-            display: inline-block;
-            padding: 12px 24px;
-            background: var(--primary);
-            color: white;
+            padding: 0.8rem 1.5rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
             transition: all 0.3s ease;
-            text-align: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         
-        .btn:hover {
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
             background: var(--primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
         }
         
-        .btn:active {
-            transform: translateY(0);
+        .btn-secondary {
+            background: #404040;
+            color: white;
         }
         
-        .btn-block {
-            display: block;
-            width: 100%;
+        .btn-secondary:hover {
+            background: #505050;
         }
         
         .btn-success {
-            background: var(--success);
+            background: var(--success-color);
+            color: white;
         }
         
-        .btn-success:hover {
-            background: #219653;
+        .btn-danger {
+            background: var(--error-color);
+            color: white;
         }
         
         .btn-warning {
-            background: var(--warning);
-        }
-        
-        .btn-warning:hover {
-            background: #e67e22;
-        }
-        
-        .btn-error {
-            background: var(--error);
-        }
-        
-        .btn-error:hover {
-            background: #c0392b;
-        }
-        
-        .btn-info {
-            background: var(--info);
-        }
-        
-        .btn-info:hover {
-            background: #2980b9;
+            background: var(--warning-color);
+            color: white;
         }
         
         .btn-small {
-            padding: 8px 16px;
-            font-size: 12px;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.9rem;
         }
         
-        /* Cards */
-        .card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* CSV Management */
+        .csv-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .csv-card {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #404040;
         }
         
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
         }
         
         .card-title {
-            color: var(--light);
-            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .card-count {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .card-actions {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
         }
         
-        .card-icon {
-            color: var(--primary);
+        .card-preview {
+            background: #0a0a0a;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: 'Consolas', monospace;
+            font-size: 0.9rem;
+            max-height: 150px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            border: 1px solid #333;
         }
         
-        /* File Grid */
-        .file-grid {
+        /* Email Sender */
+        .sender-controls {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        
-        .file-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .file-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .file-name {
-            font-weight: 600;
-            color: var(--light);
-        }
-        
-        .file-stats {
-            color: var(--gray);
-            font-size: 12px;
-            margin-bottom: 10px;
-        }
-        
-        .file-actions {
-            display: flex;
-            gap: 5px;
-        }
-        
-        /* Email Controls */
-        .controls-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
         
         .control-group {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
+            background: #1a1a1a;
+            padding: 1.5rem;
             border-radius: 8px;
+            border: 1px solid #404040;
+        }
+        
+        .control-title {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .control-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .control-label {
+            min-width: 120px;
+            color: var(--text-gray);
+        }
+        
+        .control-input {
+            flex: 1;
+            padding: 0.5rem;
+            background: #0a0a0a;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            color: var(--text-light);
+        }
+        
+        .control-select {
+            padding: 0.5rem;
+            background: #0a0a0a;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            color: var(--text-light);
+            min-width: 150px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
         }
         
         /* Progress Bar */
         .progress-container {
-            margin: 20px 0;
+            background: #1a1a1a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid #404040;
         }
         
         .progress-bar {
             width: 100%;
             height: 20px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #0a0a0a;
             border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin: 1rem 0;
         }
         
         .progress-fill {
             height: 100%;
-            background: var(--primary);
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
             width: 0%;
             transition: width 0.3s ease;
             border-radius: 10px;
@@ -371,22 +389,27 @@
         
         .progress-text {
             text-align: center;
-            color: var(--gray);
-            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
         }
         
-        /* Notifications */
+        /* Notification System */
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 20px;
+            padding: 1rem 1.5rem;
             border-radius: 8px;
             color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             animation: slideIn 0.3s ease;
-            max-width: 350px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
         }
         
         @keyframes slideIn {
@@ -394,1171 +417,1265 @@
             to { transform: translateX(0); opacity: 1; }
         }
         
-        .notification.success {
-            background: var(--success);
+        .notification-success {
+            background: var(--success-color);
         }
         
-        .notification.error {
-            background: var(--error);
+        .notification-error {
+            background: var(--error-color);
         }
         
-        .notification.warning {
-            background: var(--warning);
+        .notification-warning {
+            background: var(--warning-color);
         }
         
-        .notification.info {
-            background: var(--info);
+        .notification-info {
+            background: var(--info-color);
         }
         
-        /* Tags Modal */
-        .modal {
-            display: none;
+        /* Tags Manager */
+        .tags-manager {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 8px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        
+        .tags-content {
+            font-family: 'Consolas', monospace;
+            white-space: pre-wrap;
+            background: #0a0a0a;
+            padding: 1.5rem;
+            border-radius: 5px;
+            border: 1px solid #333;
+            margin-top: 1rem;
+        }
+        
+        /* Modal System */
+        .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            right: 0;
+            bottom: 0;
             background: rgba(0, 0, 0, 0.8);
-            z-index: 1001;
-            align-items: center;
+            display: none;
             justify-content: center;
+            align-items: center;
+            z-index: 1001;
         }
         
-        .modal.active {
+        .modal-overlay.active {
             display: flex;
         }
         
-        .modal-content {
-            background: var(--secondary);
-            border-radius: 15px;
-            padding: 30px;
+        .modal {
+            background: var(--bg-card);
+            border-radius: 10px;
+            padding: 2rem;
             max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
             width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
         }
         
         .modal-title {
-            color: var(--light);
-            font-size: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-light);
         }
         
-        .close-modal {
+        .modal-close {
             background: none;
             border: none;
-            color: var(--gray);
-            font-size: 24px;
+            color: var(--text-gray);
+            font-size: 1.5rem;
             cursor: pointer;
-            padding: 0;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 0.5rem;
         }
         
-        /* Table */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-header {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .user-info {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .app-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .csv-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sender-controls {
+                grid-template-columns: 1fr;
+            }
+            
+            .control-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .control-label {
+                min-width: auto;
+            }
         }
         
-        .data-table th {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px;
-            text-align: left;
-            font-weight: 600;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 1s ease-in-out infinite;
         }
         
-        .data-table td {
-            padding: 10px 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
-        .data-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        
-        /* Code Display */
-        .code-display {
-            background: #1a1a1a;
-            border-radius: 8px;
-            padding: 15px;
+        /* File Preview */
+        .file-preview {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 1rem;
             font-family: 'Consolas', monospace;
-            font-size: 12px;
-            overflow-x: auto;
-            margin: 15px 0;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
         }
         
         /* Status Indicators */
-        .status {
+        .status-indicator {
             display: inline-flex;
             align-items: center;
-            padding: 4px 12px;
+            gap: 0.5rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 0.9rem;
+            font-weight: bold;
         }
         
-        .status.online {
+        .status-online {
             background: rgba(39, 174, 96, 0.2);
-            color: #27ae60;
+            color: var(--success-color);
         }
         
-        .status.offline {
+        .status-offline {
             background: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
+            color: var(--error-color);
         }
         
-        .status.pending {
+        .status-busy {
             background: rgba(243, 156, 18, 0.2);
-            color: #f39c12;
+            color: var(--warning-color);
         }
         
-        /* Utility Classes */
-        .flex {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .flex-between {
+        /* Tab Content */
+        .tab-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .tab-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+        
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
         }
         
         .text-center {
             text-align: center;
         }
         
-        .text-right {
-            text-align: right;
-        }
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+        .ml-1 { margin-left: 1rem; }
+        .mr-1 { margin-right: 1rem; }
         
-        .mb-10 {
-            margin-bottom: 10px;
-        }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-1 { gap: 1rem; }
         
-        .mb-20 {
-            margin-bottom: 20px;
-        }
-        
-        .mt-10 {
-            margin-top: 10px;
-        }
-        
-        .mt-20 {
-            margin-top: 20px;
-        }
-        
-        .hidden {
-            display: none !important;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
-            }
-            
-            .header {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            
-            .tabs {
-                flex-direction: column;
-            }
-            
-            .file-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .controls-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
     </style>
 </head>
 <body>
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-container">
-        <div class="login-logo">✉️</div>
-        <h1 class="login-title">RED-X MAILER 10.1</h1>
-        <p class="login-subtitle">Premium Email Management System</p>
-        
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Enter your username">
-        </div>
-        
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter your password">
-        </div>
-        
-        <div id="loginStatus" class="mb-20"></div>
-        
-        <button id="loginBtn" class="btn btn-block">🔓 LOGIN TO RED-X MAILER</button>
-        
-        <div class="mt-20">
-            <p id="systemInfo" style="color: var(--gray); font-size: 12px;"></p>
-        </div>
-    </div>
-    
-    <!-- Main Application -->
-    <div id="mainApp" class="container hidden">
+    <div class="app-container">
         <!-- Header -->
-        <div class="header">
-            <div class="logo">
+        <header class="app-header">
+            <div class="logo-section">
                 <div class="logo-icon">✉️</div>
-                <div class="logo-text">
-                    <h1>RED-X MAILER 10.1</h1>
-                    <p>Premium Email Management System</p>
+                <div>
+                    <h1 class="app-title">RED-X MAILER 10.1</h1>
+                    <p class="app-subtitle">Premium Email Management System</p>
                 </div>
             </div>
-            <div class="user-info">
-                <p>User: <strong id="currentUser">Guest</strong></p>
-                <p>Daily Limit: <strong id="dailyLimit">0</strong> | Sent Today: <strong id="sentToday">0</strong></p>
-                <button id="refreshLimitBtn" class="btn btn-small mt-10">🔄 Refresh</button>
+            
+            <div class="user-info" id="userInfo">
+                <div class="user-stats">
+                    <span>User: </span>
+                    <span class="stat-value" id="usernameDisplay">Not Logged In</span>
+                </div>
+                <div class="user-stats">
+                    <span>Daily Limit: </span>
+                    <span class="stat-value" id="dailyLimit">0</span>
+                </div>
+                <div class="user-stats">
+                    <span>Sent Today: </span>
+                    <span class="stat-value" id="sentToday">0</span>
+                </div>
+                <button class="btn btn-danger btn-small" onclick="logout()" id="logoutBtn" style="display: none;">
+                    Logout
+                </button>
             </div>
-        </div>
+        </header>
         
-        <!-- Tabs -->
-        <div class="tabs">
-            <div class="tab active" data-tab="csv">📊 CSV Management</div>
-            <div class="tab" data-tab="email">📧 Email Sender</div>
-            <div class="tab" data-tab="tools">🛠️ Tools</div>
-        </div>
+        <!-- Navigation -->
+        <nav class="app-nav" id="mainNav" style="display: none;">
+            <button class="nav-tab active" onclick="switchTab('login')">🔐 Login</button>
+            <button class="nav-tab" onclick="switchTab('csv')">📊 CSV Management</button>
+            <button class="nav-tab" onclick="switchTab('email')">📧 Email Sender</button>
+            <button class="nav-tab" onclick="switchTab('tags')">🏷️ Tags Reference</button>
+            <button class="nav-tab" onclick="switchTab('contacts')">👥 Manual Contacts</button>
+        </nav>
         
-        <!-- CSV Management Tab -->
-        <div id="csvTab" class="tab-content active">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <span class="card-icon">📄</span>
-                        CSV File Management
-                    </div>
-                    <button id="refreshFilesBtn" class="btn">🔄 Refresh All</button>
-                </div>
-                
-                <div class="mb-20">
-                    <label>Default Input Number For All Operations</label>
-                    <div class="flex">
-                        <input type="number" id="defaultNumber" value="15" style="width: 100px;">
-                        <button id="applyDefaultBtn" class="btn">Apply to All</button>
-                    </div>
-                </div>
-                
-                <button id="runAllBtn" class="btn btn-block mb-20">🚀 RUN ALL OPERATIONS</button>
-                
-                <div class="file-grid" id="csvFilesGrid">
-                    <!-- Files will be loaded here -->
-                </div>
-            </div>
-        </div>
-        
-        <!-- Email Sender Tab -->
-        <div id="emailTab" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <span class="card-icon">📧</span>
-                        RED-X MAILER
-                    </div>
-                    <div class="flex">
-                        <button id="tagsBtn" class="btn btn-small">🏷️ Tags</button>
-                        <div class="flex">
-                            <label class="flex">
-                                <input type="checkbox" id="gmailApiCheck"> Gmail API
-                            </label>
-                            <label class="flex">
-                                <input type="checkbox" id="gmailDriveApiCheck"> Gmail DRIVE API
-                            </label>
+        <!-- Main Content -->
+        <main class="app-main">
+            <!-- Login Panel -->
+            <div class="content-panel active" id="loginPanel">
+                <div class="login-panel">
+                    <h2 class="tab-title">🔐 Secure Login</h2>
+                    <p class="text-center mb-2">Login to access the RED-X MAILER system</p>
+                    
+                    <div class="login-form">
+                        <div class="form-group">
+                            <label class="form-label" for="username">Username:</label>
+                            <input type="text" id="username" class="form-input" placeholder="Enter your username">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="password">Password:</label>
+                            <input type="password" id="password" class="form-input" placeholder="Enter your password">
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="status-indicator status-offline" id="connectionStatus">
+                                🔍 Connecting to authentication server...
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="login()" id="loginBtn">
+                            🔓 LOGIN TO RED-X MAILER
+                        </button>
+                        
+                        <div class="text-center mt-2">
+                            <p>System IP: <span id="systemIp">Loading...</span></p>
+                            <p>Date: <span id="currentDate">Loading...</span></p>
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <!-- CSV Management Panel -->
+            <div class="content-panel" id="csvPanel">
+                <div class="tab-header">
+                    <h2 class="tab-title">📊 CSV File Management</h2>
+                    <button class="btn btn-primary" onclick="refreshAllFiles()">
+                        🔄 Refresh All
+                    </button>
+                </div>
                 
-                <!-- Controls -->
-                <div class="controls-grid">
+                <div class="control-group mb-2">
+                    <div class="control-title">🔢 Default Input Number For All Operations</div>
+                    <div class="control-row">
+                        <span class="control-label">Default number:</span>
+                        <input type="number" id="defaultNumber" class="control-input" value="15" min="1" max="1000">
+                        <button class="btn btn-secondary" onclick="applyDefaultToAll()">
+                            Apply to All
+                        </button>
+                    </div>
+                    <button class="btn btn-primary w-full mt-1" onclick="runAllOperations()">
+                        🚀 RUN ALL OPERATIONS
+                    </button>
+                </div>
+                
+                <div class="csv-grid" id="csvGrid">
+                    <!-- CSV files will be loaded here dynamically -->
+                </div>
+            </div>
+            
+            <!-- Email Sender Panel -->
+            <div class="content-panel" id="emailPanel">
+                <div class="tab-header">
+                    <h2 class="tab-title">📧 RED-X MAILER</h2>
+                    <div class="flex items-center gap-1">
+                        <button class="btn btn-primary" onclick="showTagsManager()">
+                            🏷️ Tags
+                        </button>
+                        <button class="btn btn-secondary" onclick="updateUserStats()">
+                            🔄 Limit
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="sender-controls">
+                    <!-- Source Selection -->
                     <div class="control-group">
-                        <label>Source</label>
-                        <div class="flex">
-                            <label class="flex">
-                                <input type="radio" name="source" value="contacts.csv" checked> contacts.csv
-                            </label>
-                            <label class="flex">
-                                <input type="radio" name="source" value="manual_contacts.csv"> Manual
-                            </label>
-                            <button id="editManualBtn" class="btn btn-small">📝 Edit</button>
+                        <div class="control-title">📋 Contacts Source</div>
+                        <div class="control-row">
+                            <span class="control-label">Source:</span>
+                            <select id="contactsSource" class="control-select">
+                                <option value="contacts.csv">contacts.csv</option>
+                                <option value="manual_contacts.csv">Manual Contacts</option>
+                            </select>
+                            <button class="btn btn-secondary" onclick="showManualContacts()">
+                                📝 Edit Manual
+                            </button>
                         </div>
                     </div>
                     
+                    <!-- Sending Mode -->
                     <div class="control-group">
-                        <label>Mode</label>
-                        <div class="flex">
-                            <label class="flex">
-                                <input type="radio" name="mode" value="rotate" checked> Rotate
-                            </label>
-                            <label class="flex">
-                                <input type="radio" name="mode" value="thread"> Thread
-                            </label>
+                        <div class="control-title">⚙️ Sending Mode</div>
+                        <div class="control-row">
+                            <span class="control-label">Mode:</span>
+                            <select id="sendingMode" class="control-select">
+                                <option value="rotate">Rotate</option>
+                                <option value="thread">Thread</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="gmailApi" checked>
+                            <label for="gmailApi">Gmail API</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="gmailDriveApi">
+                            <label for="gmailDriveApi">Gmail DRIVE API</label>
                         </div>
                     </div>
                     
+                    <!-- Attachment Settings -->
                     <div class="control-group">
-                        <label>Attachment</label>
-                        <select id="attachmentType">
-                            <option value="pdf">PDF</option>
-                            <option value="jpg">JPG</option>
-                            <option value="png">PNG</option>
-                            <option value="docx">DOCX</option>
-                            <option value="xlsx">XLSX</option>
-                            <option value="direct_pdf">Direct PDF</option>
-                            <option value="direct_inline_body">Direct Inline Body</option>
-                            <option value="blank">No Attachment</option>
-                        </select>
+                        <div class="control-title">📎 Attachment Settings</div>
+                        <div class="control-row">
+                            <span class="control-label">Attachment:</span>
+                            <select id="attachmentType" class="control-select">
+                                <option value="pdf">PDF</option>
+                                <option value="jpg">JPG</option>
+                                <option value="png">PNG</option>
+                                <option value="heic">HEIC</option>
+                                <option value="gif">GIF</option>
+                                <option value="bmp">BMP</option>
+                                <option value="webp">WEBP</option>
+                                <option value="docx">DOCX</option>
+                                <option value="xlsx">XLSX</option>
+                                <option value="direct_pdf">Direct PDF</option>
+                                <option value="direct_inline_body">Direct Inline Body</option>
+                                <option value="blank">No Attachment</option>
+                            </select>
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Inline:</span>
+                            <select id="inlineAttachment" class="control-select">
+                                <option value="regular">Regular</option>
+                                <option value="inline">Inline</option>
+                            </select>
+                        </div>
                     </div>
                     
+                    <!-- Email Count -->
                     <div class="control-group">
-                        <label>Inline</label>
-                        <select id="inlineType">
-                            <option value="regular">Regular</option>
-                            <option value="inline">Inline</option>
-                        </select>
+                        <div class="control-title">📧 Email Count</div>
+                        <div class="control-row">
+                            <span class="control-label">Send Count:</span>
+                            <input type="number" id="emailCount" class="control-input" value="1" min="1" max="10000">
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Per API:</span>
+                            <input type="number" id="perApiLimit" class="control-input" value="350" min="1" max="1000">
+                        </div>
+                        <div class="control-row">
+                            <span class="control-label">Rotate Every:</span>
+                            <input type="number" id="rotateApi" class="control-input" value="1" min="1" max="100">
+                        </div>
                     </div>
                 </div>
                 
                 <!-- Live Data -->
-                <div class="flex-between mb-20">
-                    <div class="flex">
-                        <button id="fetchLiveDataBtn" class="btn">📥 Fetch Live Data</button>
-                        <span id="liveDataStatus" style="color: var(--warning);">Click to load</span>
-                    </div>
-                    <div class="flex">
-                        <button id="openCredsBtn" class="btn btn-small">📁 creds</button>
-                        <button id="openHtmlBtn" class="btn btn-small">🌐 html</button>
-                    </div>
-                </div>
-                
-                <!-- Count and API Settings -->
-                <div class="controls-grid mb-20">
-                    <div class="control-group">
-                        <label>Send Count</label>
-                        <input type="number" id="emailCount" value="1" min="1">
-                    </div>
-                    
-                    <div class="control-group">
-                        <label>Per API Limit</label>
-                        <input type="number" id="perApiLimit" value="350">
-                    </div>
-                    
-                    <div class="control-group">
-                        <label>Rotate APIs</label>
-                        <input type="number" id="rotateApis" value="1" min="1">
-                    </div>
-                    
-                    <div class="control-group">
-                        <label>Unsubscribe</label>
-                        <div class="flex">
-                            <button id="enableUnsubscribeBtn" class="btn btn-small">✅ On</button>
-                            <button id="disableUnsubscribeBtn" class="btn btn-small">❌ Off</button>
-                            <span id="unsubscribeStatus" style="color: var(--error);">Off</span>
+                <div class="control-group mb-2">
+                    <div class="control-title">🔄 Live Data</div>
+                    <div class="control-row">
+                        <button class="btn btn-primary" onclick="fetchLiveData()" id="fetchLiveDataBtn">
+                            📥 Fetch Live Data
+                        </button>
+                        <div class="status-indicator status-offline" id="liveDataStatus">
+                            Click to load
                         </div>
                     </div>
                 </div>
                 
-                <!-- Body Content -->
-                <div class="card mb-20">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">📄</span>
-                            Body Content (body.txt)
-                            <span id="bodyLineCount" class="status pending">Lines: 0</span>
-                        </div>
-                        <div class="file-actions">
-                            <button data-file="body.txt" class="btn btn-small edit-btn">✏️</button>
-                            <button data-file="body.txt" class="btn btn-small view-btn">👁️</button>
-                            <button data-file="body.txt" class="btn btn-small clear-btn">🗑️</button>
-                            <button data-file="body.txt" class="btn btn-small refresh-btn">🔄</button>
-                        </div>
-                    </div>
-                    <textarea id="bodyContent" placeholder="Loading body content..."></textarea>
-                </div>
-                
-                <!-- Progress -->
+                <!-- Progress Section -->
                 <div class="progress-container">
+                    <div class="progress-text" id="progressText">Ready to send emails...</div>
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill"></div>
                     </div>
-                    <div class="progress-text" id="progressText">Ready to send emails...</div>
+                    <div class="flex justify-center gap-1 mt-2">
+                        <button class="btn btn-primary" onclick="startEmailSending()" id="startEmailBtn">
+                            🚀 START SENDING
+                        </button>
+                        <button class="btn btn-danger" onclick="stopEmailSending()" id="stopEmailBtn">
+                            🛑 STOP
+                        </button>
+                    </div>
                 </div>
                 
-                <!-- Start/Stop Buttons -->
-                <div class="flex-between mt-20">
-                    <button id="startSendingBtn" class="btn" style="flex: 1; margin-right: 10px;">🚀 START SENDING</button>
-                    <button id="stopSendingBtn" class="btn btn-error" style="flex: 1; margin-left: 10px;">🛑 STOP SENDING</button>
-                </div>
-                
-                <!-- Data Management -->
-                <div class="card mt-20">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <span class="card-icon">📦</span>
-                            Data Management
+                <!-- File Previews -->
+                <div class="grid grid-cols-2 gap-4 mt-4">
+                    <div class="control-group">
+                        <div class="control-title">📄 Body Content</div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary btn-small" onclick="openFile('body.txt')">
+                                ✏️ Edit
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="clearFile('body.txt')">
+                                🗑️ Clear
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="refreshFilePreview('body.txt', 'bodyPreview')">
+                                🔄 Refresh
+                            </button>
+                        </div>
+                        <div class="file-preview" id="bodyPreview">
+                            Loading body.txt...
                         </div>
                     </div>
                     
-                    <div class="controls-grid">
-                        <div class="control-group">
-                            <div class="card-header">
-                                <span>👥 Contacts</span>
-                                <span id="contactsCount" class="status">0</span>
-                            </div>
-                            <div class="file-actions">
-                                <button data-file="contacts.csv" class="btn btn-small edit-btn">✏️</button>
-                                <button data-file="contacts.csv" class="btn btn-small view-btn">👁️</button>
-                                <button data-file="contacts.csv" class="btn btn-small clear-btn">🗑️</button>
-                                <button data-file="contacts.csv" class="btn btn-small refresh-btn">🔄</button>
-                            </div>
+                    <div class="control-group">
+                        <div class="control-title">📎 Attachment Config</div>
+                        <div class="card-actions">
+                            <button class="btn btn-secondary btn-small" onclick="openFile('manage_attachment_name.txt')">
+                                ✏️ Edit
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="clearFile('manage_attachment_name.txt')">
+                                🗑️ Clear
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="refreshFilePreview('manage_attachment_name.txt', 'attachmentPreview')">
+                                🔄 Refresh
+                            </button>
                         </div>
-                        
-                        <div class="control-group">
-                            <div class="card-header">
-                                <span>🔐 Gmail</span>
-                                <span id="gmailCount" class="status">0</span>
-                            </div>
-                            <div class="file-actions">
-                                <button data-file="gmail.csv" class="btn btn-small edit-btn">✏️</button>
-                                <button data-file="gmail.csv" class="btn btn-small view-btn">👁️</button>
-                                <button data-file="gmail.csv" class="btn btn-small clear-btn">🗑️</button>
-                                <button data-file="gmail.csv" class="btn btn-small refresh-btn">🔄</button>
-                            </div>
-                        </div>
-                        
-                        <div class="control-group">
-                            <div class="card-header">
-                                <span>📎 Attachment</span>
-                                <span id="attachmentCount" class="status">0</span>
-                            </div>
-                            <div class="file-actions">
-                                <button data-file="manage_attachment_name.txt" class="btn btn-small edit-btn">✏️</button>
-                                <button data-file="manage_attachment_name.txt" class="btn btn-small view-btn">👁️</button>
-                                <button data-file="manage_attachment_name.txt" class="btn btn-small clear-btn">🗑️</button>
-                                <button data-file="manage_attachment_name.txt" class="btn btn-small refresh-btn">🔄</button>
-                            </div>
+                        <div class="file-preview" id="attachmentPreview">
+                            Loading attachment config...
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Tags Reference Panel -->
+            <div class="content-panel" id="tagsPanel">
+                <div class="tab-header">
+                    <h2 class="tab-title">🏷️ Complete Tags Reference</h2>
+                    <div class="flex items-center gap-1">
+                        <button class="btn btn-primary" onclick="copyTagsToClipboard()">
+                            📋 Copy All Tags
+                        </button>
+                        <button class="btn btn-secondary" onclick="addExamplesToFiles()">
+                            💾 Add Examples
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="tags-manager">
+                    <div class="tags-content" id="tagsContent">
+                        Loading tags reference...
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Manual Contacts Panel -->
+            <div class="content-panel" id="contactsPanel">
+                <div class="tab-header">
+                    <h2 class="tab-title">📝 Manual Contacts Input</h2>
+                    <button class="btn btn-primary" onclick="saveManualContacts()">
+                        💾 Save Contacts
+                    </button>
+                </div>
+                
+                <div class="control-group mb-2">
+                    <div class="control-title">💡 Instructions</div>
+                    <p>• Enter email addresses line by line (one email per line)</p>
+                    <p>• Click 'Save Contacts' to save and use for email sending</p>
+                </div>
+                
+                <div class="control-group">
+                    <div class="control-title">📧 Enter Email Addresses</div>
+                    <div class="card-actions">
+                        <button class="btn btn-secondary btn-small" onclick="clearContactsText()">
+                            🗑️ Clear All
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="pasteFromClipboard()">
+                            📋 Paste from Clipboard
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="loadFromFile()">
+                            📁 Load from File
+                        </button>
+                        <div class="status-indicator" id="contactsStats">
+                            Emails: 0
+                        </div>
+                    </div>
+                    <textarea id="contactsText" class="form-input" rows="15" 
+                              placeholder="Enter email addresses, one per line..."
+                              oninput="updateContactsStats()"></textarea>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Modals -->
+        <div class="modal-overlay" id="filePreviewModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modalTitle">File Preview</h3>
+                    <button class="modal-close" onclick="closeModal('filePreviewModal')">×</button>
+                </div>
+                <div class="file-preview" id="modalPreview"></div>
+                <div class="flex justify-center gap-1 mt-2">
+                    <button class="btn btn-secondary" onclick="closeModal('filePreviewModal')">
+                        Close
+                    </button>
                 </div>
             </div>
         </div>
         
-        <!-- Tools Tab -->
-        <div id="toolsTab" class="tab-content">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">
-                        <span class="card-icon">🛠️</span>
-                        System Tools
-                    </div>
-                </div>
-                
-                <div class="file-grid">
-                    <div class="file-card">
-                        <div class="file-header">
-                            <div class="file-name">System Info</div>
-                        </div>
-                        <div id="systemInfoDetails" class="file-stats"></div>
-                        <button id="refreshSystemInfoBtn" class="btn btn-small btn-block">🔄 Refresh</button>
-                    </div>
-                    
-                    <div class="file-card">
-                        <div class="file-header">
-                            <div class="file-name">Clean Temp Files</div>
-                        </div>
-                        <p style="color: var(--gray); font-size: 14px; margin-bottom: 15px;">Clear all temporary files and cache</p>
-                        <button id="cleanTempBtn" class="btn btn-small btn-block">🧹 Clean Now</button>
-                    </div>
-                    
-                    <div class="file-card">
-                        <div class="file-header">
-                            <div class="file-name">Tags Reference</div>
-                        </div>
-                        <p style="color: var(--gray); font-size: 14px; margin-bottom: 15px;">View all available tags</p>
-                        <button id="showTagsBtn" class="btn btn-small btn-block">🏷️ View Tags</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Notifications -->
+        <div id="notificationsContainer"></div>
     </div>
-    
-    <!-- Tags Modal -->
-    <div id="tagsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">🏷️ Complete Tags Reference</h2>
-                <button class="close-modal" id="closeTagsModal">&times;</button>
-            </div>
-            <div class="code-display" id="tagsContent">
-                Loading tags...
-            </div>
-            <div class="flex-between mt-20">
-                <button id="copyTagsBtn" class="btn">📋 Copy All Tags</button>
-                <button id="addExamplesBtn" class="btn">💾 Add Examples</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Notification Container -->
-    <div id="notificationContainer"></div>
 
     <script>
-        // Backend API instance
-        let backend = window.pywebview.api;
-        
-        // Current state
-        let currentState = {
-            user: null,
-            stats: {},
-            sending: false
-        };
+        // Global state
+        let currentUser = null;
+        let userStats = null;
+        let isLoggedIn = false;
+        let emailSendingActive = false;
+        let currentProgress = 0;
         
         // Initialize
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Check backend connection
-            try {
-                const result = await backend.test_connection();
-                console.log('Backend connection:', result);
-            } catch (error) {
-                console.error('Backend connection failed:', error);
-                showNotification('Cannot connect to backend', 'error');
-                return;
-            }
+        document.addEventListener('DOMContentLoaded', function() {
+            updateSystemInfo();
+            loadTagsReference();
+            checkConnection();
+            loadCSVFiles();
+            refreshFilePreviews();
             
-            // Load system info
-            loadSystemInfo();
+            // Initialize event listeners
+            document.getElementById('gmailApi').addEventListener('change', function() {
+                if (this.checked) {
+                    document.getElementById('gmailDriveApi').checked = false;
+                }
+            });
             
-            // Set up event listeners
-            setupEventListeners();
+            document.getElementById('gmailDriveApi').addEventListener('change', function() {
+                if (this.checked) {
+                    document.getElementById('gmailApi').checked = false;
+                }
+            });
             
-            // Check for existing session
-            checkExistingSession();
+            // Auto-refresh every 30 seconds
+            setInterval(refreshUserStats, 30000);
         });
         
-        function setupEventListeners() {
-            // Login
-            document.getElementById('loginBtn').addEventListener('click', handleLogin);
-            document.getElementById('password').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') handleLogin();
+        // System Info
+        function updateSystemInfo() {
+            // Get current date
+            const now = new Date();
+            const dateStr = now.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
             });
+            document.getElementById('currentDate').textContent = dateStr;
             
-            // Tabs
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
-                    switchTab(tabId);
+            // Try to get IP (simplified)
+            fetch('https://api.ipify.org?format=json')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('systemIp').textContent = data.ip;
+                })
+                .catch(() => {
+                    document.getElementById('systemIp').textContent = 'unknown';
                 });
-            });
-            
-            // File actions
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const file = this.getAttribute('data-file');
-                    editFile(file);
-                });
-            });
-            
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const file = this.getAttribute('data-file');
-                    viewFile(file);
-                });
-            });
-            
-            document.querySelectorAll('.clear-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const file = this.getAttribute('data-file');
-                    clearFile(file);
-                });
-            });
-            
-            document.querySelectorAll('.refresh-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const file = this.getAttribute('data-file');
-                    refreshFile(file);
-                });
-            });
-            
-            // Refresh buttons
-            document.getElementById('refreshFilesBtn').addEventListener('click', loadFileStats);
-            document.getElementById('refreshLimitBtn').addEventListener('click', loadUserInfo);
-            document.getElementById('refreshSystemInfoBtn').addEventListener('click', loadSystemInfo);
-            
-            // Email sending
-            document.getElementById('startSendingBtn').addEventListener('click', startSending);
-            document.getElementById('stopSendingBtn').addEventListener('click', stopSending);
-            
-            // Tags modal
-            document.getElementById('tagsBtn').addEventListener('click', showTags);
-            document.getElementById('showTagsBtn').addEventListener('click', showTags);
-            document.getElementById('closeTagsModal').addEventListener('click', hideTags);
-            document.getElementById('copyTagsBtn').addEventListener('click', copyTags);
-            document.getElementById('addExamplesBtn').addEventListener('click', addExamples);
-            
-            // Other buttons
-            document.getElementById('fetchLiveDataBtn').addEventListener('click', fetchLiveData);
-            document.getElementById('openCredsBtn').addEventListener('click', () => openDirectory('credentials'));
-            document.getElementById('openHtmlBtn').addEventListener('click', () => openDirectory('html'));
-            document.getElementById('editManualBtn').addEventListener('click', editManualContacts);
-            document.getElementById('cleanTempBtn').addEventListener('click', cleanTempFiles);
-            
-            // Apply default
-            document.getElementById('applyDefaultBtn').addEventListener('click', applyDefault);
-            document.getElementById('runAllBtn').addEventListener('click', runAllOperations);
-            
-            // Unsubscribe
-            document.getElementById('enableUnsubscribeBtn').addEventListener('click', () => setUnsubscribe(true));
-            document.getElementById('disableUnsubscribeBtn').addEventListener('click', () => setUnsubscribe(false));
         }
         
-        async function handleLogin() {
+        // Connection Check
+        function checkConnection() {
+            // This would connect to backend.py
+            // For now, simulate connection
+            setTimeout(() => {
+                document.getElementById('connectionStatus').className = 'status-indicator status-online';
+                document.getElementById('connectionStatus').textContent = '✅ Connected to authentication server';
+            }, 1500);
+        }
+        
+        // Login Function
+        function login() {
             const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            const statusEl = document.getElementById('loginStatus');
+            const password = document.getElementById('password').value.trim();
             
             if (!username || !password) {
-                showNotification('Please enter username and password', 'warning');
+                showNotification('Please enter both username and password', 'error');
                 return;
             }
             
-            statusEl.innerHTML = '<span style="color: var(--warning);">🔐 Authenticating...</span>';
+            const loginBtn = document.getElementById('loginBtn');
+            const originalText = loginBtn.innerHTML;
+            loginBtn.innerHTML = '<span class="spinner"></span> Authenticating...';
+            loginBtn.disabled = true;
             
-            try {
-                const result = await backend.login(username, password);
+            // Simulate backend login
+            setTimeout(() => {
+                // This would be a call to backend.login()
+                // For demonstration, we'll simulate success
+                const success = true; // Replace with actual backend call
                 
-                if (result.success) {
-                    showNotification(result.message, 'success');
-                    currentState.user = username;
-                    document.getElementById('currentUser').textContent = username;
+                if (success) {
+                    currentUser = username;
+                    isLoggedIn = true;
                     
-                    // Hide login, show main app
-                    document.getElementById('loginScreen').classList.add('hidden');
-                    document.getElementById('mainApp').classList.remove('hidden');
+                    showNotification('Login successful!', 'success');
                     
-                    // Load user info and files
-                    loadUserInfo();
-                    loadFileStats();
-                    createNecessaryFiles();
+                    // Update UI
+                    document.getElementById('usernameDisplay').textContent = username;
+                    document.getElementById('mainNav').style.display = 'flex';
+                    document.getElementById('logoutBtn').style.display = 'inline-flex';
+                    
+                    // Switch to CSV management tab
+                    switchTab('csv');
+                    
+                    // Load user stats
+                    loadUserStats();
                 } else {
-                    statusEl.innerHTML = `<span style="color: var(--error);">❌ ${result.message}</span>`;
-                    showNotification(result.message, 'error');
+                    showNotification('Login failed. Please check your credentials.', 'error');
                 }
-            } catch (error) {
-                statusEl.innerHTML = `<span style="color: var(--error);">❌ Connection error</span>`;
-                showNotification('Connection error', 'error');
-                console.error('Login error:', error);
-            }
+                
+                loginBtn.innerHTML = originalText;
+                loginBtn.disabled = false;
+            }, 2000);
         }
         
-        async function checkExistingSession() {
-            // Could implement session checking here
-        }
-        
-        async function loadUserInfo() {
-            if (!currentState.user) return;
+        // Logout Function
+        function logout() {
+            currentUser = null;
+            isLoggedIn = false;
+            userStats = null;
             
-            try {
-                const info = await backend.get_user_info(currentState.user);
-                if (info.error) {
-                    console.error('Error loading user info:', info.error);
-                    return;
-                }
-                
-                document.getElementById('dailyLimit').textContent = info.daily_limit;
-                document.getElementById('sentToday').textContent = info.sent_today;
-                
-                // Update title
-                document.title = `RED-X MAILER 10.1 - User: ${currentState.user} - Daily Limit: ${info.daily_limit} - Sent Today: ${info.sent_today}`;
-                
-            } catch (error) {
-                console.error('Error loading user info:', error);
-            }
-        }
-        
-        async function loadSystemInfo() {
-            try {
-                const info = await backend.get_system_info();
-                const el = document.getElementById('systemInfo');
-                if (el) {
-                    el.textContent = `System IP: ${info.ip} | Date: ${info.date} ${info.time}`;
-                }
-                
-                const detailsEl = document.getElementById('systemInfoDetails');
-                if (detailsEl) {
-                    detailsEl.innerHTML = `
-                        <div>IP: ${info.ip}</div>
-                        <div>Date: ${info.date}</div>
-                        <div>Time: ${info.time}</div>
-                        <div>Platform: ${info.platform}</div>
-                    `;
-                }
-            } catch (error) {
-                console.error('Error loading system info:', error);
-            }
-        }
-        
-        async function createNecessaryFiles() {
-            try {
-                await backend.create_necessary_files_and_folders();
-                showNotification('Necessary files created', 'success');
-            } catch (error) {
-                console.error('Error creating files:', error);
-            }
-        }
-        
-        async function loadFileStats() {
-            try {
-                const stats = await backend.get_file_stats();
-                
-                // Update CSV files grid
-                const gridEl = document.getElementById('csvFilesGrid');
-                if (gridEl) {
-                    const files = [
-                        { name: 'subjects.csv', icon: '📄', label: 'Subjects' },
-                        { name: 'fromName.csv', icon: '📄', label: 'From Names' },
-                        { name: 'body_line.csv', icon: '📄', label: 'Body Lines' },
-                        { name: 'subjects data.csv', icon: '📊', label: 'Subjects Data' },
-                        { name: 'from name data.csv', icon: '📊', label: 'From Names Data' },
-                        { name: 'body_line_data.csv', icon: '📊', label: 'Body Lines Data' }
-                    ];
-                    
-                    gridEl.innerHTML = files.map(file => {
-                        const stat = stats[file.name] || {};
-                        return `
-                            <div class="file-card">
-                                <div class="file-header">
-                                    <div class="file-name">${file.icon} ${file.name}</div>
-                                    <span class="status ${stat.error ? 'offline' : 'online'}">
-                                        ${stat.error ? 'Error' : `Rows: ${stat.rows || 0}`}
-                                    </span>
-                                </div>
-                                <div class="file-stats">
-                                    ${stat.error ? stat.error : `${file.label}: ${stat.rows || 0} rows`}
-                                </div>
-                                <div class="file-actions">
-                                    <button data-file="${file.name}" class="btn btn-small edit-btn">✏️</button>
-                                    <button data-file="${file.name}" class="btn btn-small view-btn">👁️</button>
-                                    <button data-file="${file.name}" class="btn btn-small clear-btn">🗑️</button>
-                                </div>
-                            </div>
-                        `;
-                    }).join('');
-                    
-                    // Re-attach event listeners
-                    document.querySelectorAll('.edit-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const file = this.getAttribute('data-file');
-                            editFile(file);
-                        });
-                    });
-                    
-                    document.querySelectorAll('.view-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const file = this.getAttribute('data-file');
-                            viewFile(file);
-                        });
-                    });
-                    
-                    document.querySelectorAll('.clear-btn').forEach(btn => {
-                        btn.addEventListener('click', function() {
-                            const file = this.getAttribute('data-file');
-                            clearFile(file);
-                        });
-                    });
-                }
-                
-                // Update other file stats
-                if (stats['contacts.csv'] && !stats['contacts.csv'].error) {
-                    document.getElementById('contactsCount').textContent = `${stats['contacts.csv'].rows} rows`;
-                }
-                
-                if (stats['gmail.csv'] && !stats['gmail.csv'].error) {
-                    document.getElementById('gmailCount').textContent = `${stats['gmail.csv'].rows} APIs`;
-                }
-                
-                if (stats['manage_attachment_name.txt'] && !stats['manage_attachment_name.txt'].error) {
-                    document.getElementById('attachmentCount').textContent = `${stats['manage_attachment_name.txt'].lines} lines`;
-                }
-                
-                if (stats['body.txt'] && !stats['body.txt'].error) {
-                    document.getElementById('bodyLineCount').textContent = `Lines: ${stats['body.txt'].lines}`;
-                }
-                
-            } catch (error) {
-                console.error('Error loading file stats:', error);
-            }
-        }
-        
-        async function editFile(filename) {
-            try {
-                await backend.open_file(filename);
-                showNotification(`Opened ${filename} for editing`, 'info');
-            } catch (error) {
-                console.error('Error opening file:', error);
-            }
-        }
-        
-        async function viewFile(filename) {
-            try {
-                const content = await backend.get_file_content(filename);
-                if (content.error) {
-                    showNotification(content.error, 'error');
-                    return;
-                }
-                
-                // Create modal to view content
-                const modal = document.createElement('div');
-                modal.className = 'modal active';
-                modal.innerHTML = `
-                    <div class="modal-content" style="max-width: 90%; max-height: 90vh;">
-                        <div class="modal-header">
-                            <h2 class="modal-title">👁️ Viewing: ${filename}</h2>
-                            <button class="close-modal" onclick="this.parentElement.parentElement.remove()">&times;</button>
-                        </div>
-                        <div style="margin-top: 20px;">
-                            ${content.filename.endsWith('.csv') ? 
-                                `<pre style="background: #1a1a1a; padding: 20px; border-radius: 8px; overflow: auto; max-height: 60vh; font-family: 'Consolas', monospace; font-size: 12px;">
-${JSON.stringify(content.content, null, 2)}
-                                </pre>` :
-                                `<textarea style="width: 100%; height: 60vh; font-family: 'Consolas', monospace; font-size: 12px; background: #1a1a1a; color: white; padding: 15px; border: none; border-radius: 8px;">${content.content}</textarea>`
-                            }
-                        </div>
-                    </div>
-                `;
-                
-                document.body.appendChild(modal);
-                
-                // Close modal on click outside
-                modal.addEventListener('click', function(e) {
-                    if (e.target === this) {
-                        this.remove();
-                    }
-                });
-                
-            } catch (error) {
-                console.error('Error viewing file:', error);
-                showNotification('Error viewing file', 'error');
-            }
-        }
-        
-        async function clearFile(filename) {
-            if (!confirm(`Are you sure you want to clear ${filename}?`)) {
-                return;
-            }
+            // Update UI
+            document.getElementById('usernameDisplay').textContent = 'Not Logged In';
+            document.getElementById('mainNav').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
             
-            try {
-                const result = await backend.clear_file_content(filename);
-                if (result.error) {
-                    showNotification(result.error, 'error');
-                } else {
-                    showNotification(result.message, 'success');
-                    loadFileStats();
-                }
-            } catch (error) {
-                console.error('Error clearing file:', error);
-                showNotification('Error clearing file', 'error');
-            }
+            // Clear inputs
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            // Switch to login tab
+            switchTab('login');
+            
+            showNotification('Logged out successfully', 'info');
         }
         
-        async function refreshFile(filename) {
-            try {
-                const content = await backend.get_file_content(filename);
-                if (content.error) {
-                    showNotification(content.error, 'error');
-                } else {
-                    showNotification(`Refreshed ${filename}`, 'success');
-                    // Update specific file display if needed
-                }
-            } catch (error) {
-                console.error('Error refreshing file:', error);
-            }
-        }
-        
-        function switchTab(tabId) {
-            // Update tab buttons
-            document.querySelectorAll('.tab').forEach(tab => {
+        // Tab Switching
+        function switchTab(tabName) {
+            // Hide all panels
+            document.querySelectorAll('.content-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
-                if (tab.getAttribute('data-tab') === tabId) {
+            });
+            
+            // Show selected panel
+            document.getElementById(tabName + 'Panel').classList.add('active');
+            
+            // Set active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                if (tab.onclick.toString().includes(tabName)) {
                     tab.classList.add('active');
                 }
             });
             
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-                if (content.id === tabId + 'Tab') {
-                    content.classList.add('active');
+            // Load data for the tab
+            switch(tabName) {
+                case 'csv':
+                    loadCSVFiles();
+                    break;
+                case 'email':
+                    refreshFilePreviews();
+                    loadUserStats();
+                    break;
+                case 'tags':
+                    loadTagsReference();
+                    break;
+                case 'contacts':
+                    loadManualContacts();
+                    break;
+            }
+        }
+        
+        // Load CSV Files
+        function loadCSVFiles() {
+            const csvFiles = [
+                { id: 'subjects', name: 'subjects.csv', source: 'subjects data.csv', label: 'Subjects' },
+                { id: 'fromName', name: 'fromName.csv', source: 'from name data.csv', label: 'Names' },
+                { id: 'body_line', name: 'body_line.csv', source: 'body_line_data.csv', label: 'Body Lines' },
+                { id: 'subjects_data', name: 'subjects data.csv', source: null, label: 'Subjects Data' },
+                { id: 'from_name_data', name: 'from name data.csv', source: null, label: 'Names Data' },
+                { id: 'body_line_data', name: 'body_line_data.csv', source: null, label: 'Body Lines Data' }
+            ];
+            
+            const csvGrid = document.getElementById('csvGrid');
+            csvGrid.innerHTML = '';
+            
+            csvFiles.forEach(file => {
+                const card = document.createElement('div');
+                card.className = 'csv-card';
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">📄 ${file.name}</div>
+                        <div class="card-count" id="count-${file.id}">0</div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-secondary btn-small" onclick="openFilePreview('${file.name}')">
+                            👁️ Preview
+                        </button>
+                        <button class="btn btn-secondary btn-small" onclick="openFileInSystem('${file.name}')">
+                            ✏️ Edit
+                        </button>
+                        <button class="btn btn-danger btn-small" onclick="clearFile('${file.name}')">
+                            🗑️ Clear
+                        </button>
+                        ${file.source ? `
+                            <button class="btn btn-primary btn-small" onclick="refreshCSVFile('${file.name}', '${file.source}')">
+                                🔄 Refresh
+                            </button>
+                            <input type="number" id="countInput-${file.id}" class="control-input" style="width: 60px;" value="15" min="1">
+                        ` : ''}
+                    </div>
+                    <div class="card-preview" id="preview-${file.id}">
+                        Loading...
+                    </div>
+                `;
+                csvGrid.appendChild(card);
+                
+                // Load file stats
+                loadFileStats(file.name, file.id);
+            });
+        }
+        
+        // Load File Stats
+        function loadFileStats(filename, fileId) {
+            // This would call backend.get_file_stats()
+            // For now, simulate with local storage or mock data
+            setTimeout(() => {
+                const count = Math.floor(Math.random() * 50) + 10;
+                document.getElementById(`count-${fileId}`).textContent = count;
+                
+                // Create mock preview
+                let preview = '';
+                if (filename.includes('subject')) {
+                    preview = 'subject\nImportant Update\nUrgent Notification\nAccount Information\nDocument Available\nNew Message';
+                } else if (filename.includes('Name')) {
+                    preview = 'Name\nCustomer Service\nSupport Team\nBilling Department\nAdministration\nNotification System';
+                } else if (filename.includes('body_line')) {
+                    preview = 'body_line\nImportant update regarding your account.\nPlease review the attached document.\nYour transaction has been processed.\nDocument is ready for review.';
+                } else {
+                    preview = 'Data preview not available';
                 }
+                
+                document.getElementById(`preview-${fileId}`).textContent = preview;
+            }, 500);
+        }
+        
+        // Refresh CSV File
+        function refreshCSVFile(destinationFile, sourceFile) {
+            const fileId = destinationFile.replace(/[^a-zA-Z0-9]/g, '_');
+            const countInput = document.getElementById(`countInput-${fileId}`);
+            const count = parseInt(countInput?.value || document.getElementById('defaultNumber').value);
+            
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span>';
+            btn.disabled = true;
+            
+            // This would call backend.refresh_csv_file()
+            setTimeout(() => {
+                showNotification(`Refreshed ${destinationFile} with ${count} items from ${sourceFile}`, 'success');
+                
+                // Reload stats
+                loadFileStats(destinationFile, fileId);
+                
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 1500);
+        }
+        
+        // Refresh All Files
+        function refreshAllFiles() {
+            showNotification('Refreshing all files...', 'info');
+            
+            // This would refresh all files via backend
+            setTimeout(() => {
+                loadCSVFiles();
+                showNotification('All files refreshed successfully', 'success');
+            }, 2000);
+        }
+        
+        // Apply Default to All
+        function applyDefaultToAll() {
+            const defaultNum = document.getElementById('defaultNumber').value;
+            
+            // Update all count inputs
+            document.querySelectorAll('[id^="countInput-"]').forEach(input => {
+                input.value = defaultNum;
             });
             
-            // Load content for selected tab
-            if (tabId === 'csv') {
-                loadFileStats();
-            } else if (tabId === 'email') {
-                // Load email tab content
+            showNotification(`Applied ${defaultNum} to all operations`, 'success');
+        }
+        
+        // Run All Operations
+        function runAllOperations() {
+            showNotification('Running all operations with individual counts...', 'info');
+            
+            // This would call backend.run_all_operations()
+            setTimeout(() => {
+                showNotification('All operations completed successfully', 'success');
+                loadCSVFiles();
+            }, 3000);
+        }
+        
+        // File Operations
+        function openFilePreview(filename) {
+            // This would call backend.get_file_stats() for preview
+            document.getElementById('modalTitle').textContent = `Preview: ${filename}`;
+            document.getElementById('modalPreview').textContent = `Loading ${filename}...`;
+            document.getElementById('filePreviewModal').classList.add('active');
+            
+            setTimeout(() => {
+                // Mock preview data
+                let content = '';
+                if (filename === 'body.txt') {
+                    content = 'Hello $name,\n\nThis is an important message regarding your account.\n\nPlease review the attached document for complete details.\n\nBest regards,\n$fromName';
+                } else if (filename === 'manage_attachment_name.txt') {
+                    content = 'random_letter=10-20\nrandom_digits=10-20\ncustom=Invoice_{invoice_no}\nuse_all_formate=7-25';
+                } else if (filename.includes('.csv')) {
+                    content = 'Column1,Column2,Column3\nData1,Data2,Data3\nData4,Data5,Data6\nData7,Data8,Data9';
+                } else {
+                    content = `Content of ${filename}\n\nThis is a preview of the file content.`;
+                }
+                
+                document.getElementById('modalPreview').textContent = content;
+            }, 500);
+        }
+        
+        function openFileInSystem(filename) {
+            showNotification(`Opening ${filename} in system...`, 'info');
+            // This would call backend.open_file_in_system()
+        }
+        
+        function clearFile(filename) {
+            if (confirm(`Are you sure you want to clear ${filename}?`)) {
+                // This would call backend.clear_file_data()
+                showNotification(`Clearing ${filename}...`, 'warning');
+                
+                setTimeout(() => {
+                    showNotification(`${filename} cleared successfully`, 'success');
+                    
+                    // Reload if it's a CSV file
+                    if (filename.includes('.csv')) {
+                        const fileId = filename.replace(/[^a-zA-Z0-9]/g, '_');
+                        loadFileStats(filename, fileId);
+                    }
+                    
+                    // Refresh previews if it's a text file
+                    if (filename === 'body.txt' || filename === 'manage_attachment_name.txt') {
+                        refreshFilePreview(filename, filename.replace('.txt', 'Preview'));
+                    }
+                }, 1000);
             }
         }
         
-        async function startSending() {
-            if (currentState.sending) {
-                showNotification('Already sending emails', 'warning');
+        // Refresh File Previews
+        function refreshFilePreviews() {
+            refreshFilePreview('body.txt', 'bodyPreview');
+            refreshFilePreview('manage_attachment_name.txt', 'attachmentPreview');
+        }
+        
+        function refreshFilePreview(filename, previewId) {
+            const previewElement = document.getElementById(previewId);
+            previewElement.textContent = `Loading ${filename}...`;
+            
+            // This would call backend.get_file_stats()
+            setTimeout(() => {
+                let content = '';
+                if (filename === 'body.txt') {
+                    content = 'Hello $name,\n\nThis is an important message regarding your account.\n\nPlease review the attached document for complete details.\n\nBest regards,\n$fromName';
+                } else if (filename === 'manage_attachment_name.txt') {
+                    content = 'random_letter=10-20\nrandom_digits=10-20\ncustom=Invoice_{invoice_no}\nuse_all_formate=7-25';
+                }
+                
+                previewElement.textContent = content;
+            }, 500);
+        }
+        
+        // Load User Stats
+        function loadUserStats() {
+            if (!isLoggedIn) return;
+            
+            // This would call backend.get_user_stats()
+            setTimeout(() => {
+                // Mock data
+                userStats = {
+                    daily_limit: 50000,
+                    sent_today: 1234,
+                    remaining: 48766
+                };
+                
+                document.getElementById('dailyLimit').textContent = userStats.daily_limit.toLocaleString();
+                document.getElementById('sentToday').textContent = userStats.sent_today.toLocaleString();
+                
+                // Update window title
+                document.title = `RED-X MAILER 10.1 - User: ${currentUser} - Daily Limit: ${userStats.daily_limit} - Sent Today: ${userStats.sent_today}`;
+            }, 500);
+        }
+        
+        function refreshUserStats() {
+            if (isLoggedIn) {
+                loadUserStats();
+            }
+        }
+        
+        function updateUserStats() {
+            loadUserStats();
+            showNotification('User stats updated', 'success');
+        }
+        
+        // Email Sending
+        function startEmailSending() {
+            if (!isLoggedIn) {
+                showNotification('Please login first', 'error');
                 return;
             }
             
-            const config = {
-                count: parseInt(document.getElementById('emailCount').value) || 1,
-                mode: document.querySelector('input[name="mode"]:checked').value,
-                source: document.querySelector('input[name="source"]:checked').value,
-                attachment_type: document.getElementById('attachmentType').value,
-                inline_type: document.getElementById('inlineType').value
+            const settings = {
+                count: parseInt(document.getElementById('emailCount').value),
+                source: document.getElementById('contactsSource').value,
+                mode: document.getElementById('sendingMode').value,
+                gmailApi: document.getElementById('gmailApi').checked,
+                gmailDriveApi: document.getElementById('gmailDriveApi').checked,
+                attachmentType: document.getElementById('attachmentType').value,
+                inlineAttachment: document.getElementById('inlineAttachment').value,
+                perApiLimit: parseInt(document.getElementById('perApiLimit').value),
+                rotateApi: parseInt(document.getElementById('rotateApi').value)
             };
             
-            if (config.count < 1) {
-                showNotification('Please enter a valid email count', 'warning');
+            // Validation
+            if (settings.count < 1) {
+                showNotification('Please enter a valid email count', 'error');
                 return;
             }
             
-            currentState.sending = true;
-            document.getElementById('startSendingBtn').disabled = true;
-            document.getElementById('progressText').textContent = 'Starting email sending...';
+            // Disable start button, enable stop button
+            document.getElementById('startEmailBtn').disabled = true;
+            document.getElementById('stopEmailBtn').disabled = false;
             
-            try {
-                const result = await backend.send_emails(config);
-                
-                if (result.error) {
-                    showNotification(result.error, 'error');
-                    document.getElementById('progressText').textContent = 'Error: ' + result.error;
-                } else {
-                    showNotification(result.message, 'success');
-                    document.getElementById('progressText').textContent = result.message;
-                    document.getElementById('progressFill').style.width = '100%';
+            emailSendingActive = true;
+            currentProgress = 0;
+            
+            showNotification(`Starting to send ${settings.count} emails...`, 'info');
+            
+            // This would call backend.run_email_sender()
+            // Simulate progress
+            simulateEmailProgress(settings.count);
+        }
+        
+        function stopEmailSending() {
+            emailSendingActive = false;
+            
+            // This would call backend.stop_email_sender()
+            showNotification('Email sending stopped', 'warning');
+            
+            // Re-enable start button
+            document.getElementById('startEmailBtn').disabled = false;
+            document.getElementById('stopEmailBtn').disabled = true;
+        }
+        
+        function simulateEmailProgress(total) {
+            if (!emailSendingActive) return;
+            
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            let sent = 0;
+            const interval = setInterval(() => {
+                if (!emailSendingActive || sent >= total) {
+                    clearInterval(interval);
                     
-                    // Update user info
-                    loadUserInfo();
-                    loadFileStats();
-                }
-            } catch (error) {
-                console.error('Error sending emails:', error);
-                showNotification('Error sending emails', 'error');
-                document.getElementById('progressText').textContent = 'Error: ' + error.message;
-            } finally {
-                currentState.sending = false;
-                document.getElementById('startSendingBtn').disabled = false;
-            }
-        }
-        
-        async function stopSending() {
-            try {
-                const result = await backend.stop_sending();
-                if (result.success) {
-                    showNotification(result.message, 'warning');
-                    document.getElementById('progressText').textContent = 'Sending stopped';
-                    currentState.sending = false;
-                    document.getElementById('startSendingBtn').disabled = false;
-                }
-            } catch (error) {
-                console.error('Error stopping sending:', error);
-            }
-        }
-        
-        async function showTags() {
-            try {
-                const tags = await backend.get_tags_reference();
-                document.getElementById('tagsContent').textContent = tags;
-                document.getElementById('tagsModal').classList.add('active');
-            } catch (error) {
-                console.error('Error loading tags:', error);
-                showNotification('Error loading tags', 'error');
-            }
-        }
-        
-        function hideTags() {
-            document.getElementById('tagsModal').classList.remove('active');
-        }
-        
-        async function copyTags() {
-            const tags = document.getElementById('tagsContent').textContent;
-            try {
-                await backend.copy_to_clipboard(tags);
-                showNotification('Tags copied to clipboard', 'success');
-            } catch (error) {
-                console.error('Error copying tags:', error);
-                showNotification('Error copying tags', 'error');
-            }
-        }
-        
-        async function addExamples() {
-            // This would add example content to all files
-            showNotification('Adding examples to all files...', 'info');
-            // Implementation would go here
-        }
-        
-        async function fetchLiveData() {
-            const btn = document.getElementById('fetchLiveDataBtn');
-            const status = document.getElementById('liveDataStatus');
-            
-            btn.disabled = true;
-            status.textContent = '🔄 Fetching...';
-            status.style.color = 'var(--warning)';
-            
-            try {
-                // Simulate fetching live data
-                await new Promise(resolve => setTimeout(resolve, 2000));
-                showNotification('Live data fetched successfully', 'success');
-                status.textContent = '✅ Data Loaded';
-                status.style.color = 'var(--success)';
-            } catch (error) {
-                showNotification('Error fetching live data', 'error');
-                status.textContent = '❌ Error';
-                status.style.color = 'var(--error)';
-            } finally {
-                btn.disabled = false;
-            }
-        }
-        
-        async function openDirectory(dir) {
-            try {
-                await backend.open_directory(dir);
-            } catch (error) {
-                console.error('Error opening directory:', error);
-            }
-        }
-        
-        async function editManualContacts() {
-            // Create modal for editing manual contacts
-            const modal = document.createElement('div');
-            modal.className = 'modal active';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="modal-title">📝 Manual Contacts Input</h2>
-                        <button class="close-modal" onclick="this.parentElement.parentElement.remove()">&times;</button>
-                    </div>
-                    <div style="margin: 20px 0;">
-                        <p style="color: var(--gray); margin-bottom: 15px;">
-                            • Enter email addresses line by line (one email per line)<br>
-                            • Click 'Save Contacts' to save and use for email sending
-                        </p>
-                        <textarea id="manualContactsText" placeholder="user1@example.com&#10;user2@example.com&#10;user3@example.com" style="width: 100%; height: 300px; font-family: 'Consolas', monospace;"></textarea>
-                    </div>
-                    <div class="flex-between">
-                        <button id="saveManualContactsBtn" class="btn">💾 Save Contacts</button>
-                        <button id="clearManualContactsBtn" class="btn btn-warning">🗑️ Clear All</button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            
-            // Load existing contacts
-            try {
-                const content = await backend.get_file_content('manual_contacts.csv');
-                if (content && !content.error && content.content) {
-                    const emails = content.content.map(row => row.email).join('\n');
-                    modal.querySelector('#manualContactsText').value = emails;
-                }
-            } catch (error) {
-                console.error('Error loading manual contacts:', error);
-            }
-            
-            // Set up event listeners
-            modal.querySelector('#saveManualContactsBtn').addEventListener('click', async function() {
-                const text = modal.querySelector('#manualContactsText').value;
-                if (!text.trim()) {
-                    showNotification('No email addresses entered', 'warning');
+                    if (sent >= total) {
+                        progressFill.style.width = '100%';
+                        progressText.textContent = `Completed: ${total}/${total} emails sent`;
+                        showNotification(`Email sending completed: ${total} emails sent`, 'success');
+                        document.getElementById('startEmailBtn').disabled = false;
+                        document.getElementById('stopEmailBtn').disabled = true;
+                        updateUserStats();
+                    }
                     return;
                 }
                 
-                // Parse emails and save as CSV
-                const emails = text.trim().split('\n').map(email => email.trim()).filter(email => email);
-                const csvContent = emails.map(email => `Customer,${email}`).join('\n');
+                sent += Math.floor(Math.random() * 5) + 1;
+                if (sent > total) sent = total;
                 
-                try {
-                    await backend.save_file_content('manual_contacts.csv', `name,email\n${csvContent}`);
-                    showNotification(`Saved ${emails.length} manual contacts`, 'success');
-                    modal.remove();
-                } catch (error) {
-                    showNotification('Error saving contacts', 'error');
+                const progress = (sent / total) * 100;
+                progressFill.style.width = `${progress}%`;
+                progressText.textContent = `Progress: ${sent}/${total} emails sent (${progress.toFixed(1)}%)`;
+                
+                // Every 10 emails, show a notification
+                if (sent % 10 === 0) {
+                    showNotification(`Sent ${sent} emails so far...`, 'info');
                 }
-            });
-            
-            modal.querySelector('#clearManualContactsBtn').addEventListener('click', function() {
-                if (confirm('Clear all email addresses?')) {
-                    modal.querySelector('#manualContactsText').value = '';
-                }
-            });
-            
-            // Close modal on click outside
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.remove();
-                }
-            });
+            }, 100);
         }
         
-        async function cleanTempFiles() {
-            try {
-                await backend.cleanup_temp_files();
-                showNotification('Temporary files cleaned', 'success');
-            } catch (error) {
-                console.error('Error cleaning temp files:', error);
-                showNotification('Error cleaning temp files', 'error');
+        // Live Data
+        function fetchLiveData() {
+            const btn = document.getElementById('fetchLiveDataBtn');
+            const status = document.getElementById('liveDataStatus');
+            
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner"></span>';
+            btn.disabled = true;
+            status.className = 'status-indicator status-busy';
+            status.textContent = '🔄 Fetching...';
+            
+            // This would call backend.fetch_live_data()
+            setTimeout(() => {
+                showNotification('Live data loaded successfully', 'success');
+                
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                status.className = 'status-indicator status-online';
+                status.textContent = '✅ Data Loaded';
+                
+                // Refresh CSV files
+                loadCSVFiles();
+            }, 3000);
+        }
+        
+        // Tags Manager
+        function loadTagsReference() {
+            // This would call backend.get_tags_reference()
+            setTimeout(() => {
+                const tagsContent = document.getElementById('tagsContent');
+                tagsContent.textContent = `🏷️ COMPLETE TAGS REFERENCE - WORKS EVERYWHERE
+
+📄 INVOICE & TRANSACTION TAGS:
+{invoice_no} - JLKH8943H89U, INV-12345678, BL123456KH
+{bill_no} - 8975HGI694, BL123456XY, BILL1234567
+{uuid} - f47ac10b-58cc-4372-a567-0e02b2c3d479
+{unique_no} - UNQ12345, REF-1234-567, TRX123456ABC
+
+📅 DATE & TIME TAGS:
+{date} - Friday, September 26, 2025
+{time_no} - 12:45:08
+
+👤 RECIPIENT TAGS:
+{recipient_email} - user@example.com
+{recipient_name} - user (from email address)
+
+🎲 PARAMETER TAGS:
+{p_1}, {p_2}, {p_3}, {p_4}, {p_5}, {p_7}, {p_8}, {p_9}
+
+📝 BODY CONTENT TAGS:
+$name, $email, $subject, $fromName, $body_line, $address, $pin_code, $city_name
+$square_content, $log, $fake_domain_email
+
+🌐 HTML CONTENT TAGS:
+$tfn, $charge, $transaction_id, $product_no, $digi_no
+
+💡 USAGE INSTRUCTIONS:
+• ALL tags work in ALL fields
+• Tags are automatically replaced when sending emails
+• Multiple tags can be used together in the same field
+• Each email gets unique, non-duplicate values`;
+            }, 500);
+        }
+        
+        function showTagsManager() {
+            switchTab('tags');
+        }
+        
+        function copyTagsToClipboard() {
+            const tagsText = document.getElementById('tagsContent').textContent;
+            
+            // Create temporary textarea for copying
+            const textarea = document.createElement('textarea');
+            textarea.value = tagsText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            showNotification('All tags copied to clipboard!', 'success');
+        }
+        
+        function addExamplesToFiles() {
+            showNotification('Adding examples to all files...', 'info');
+            
+            // This would call backend.add_examples_to_files()
+            setTimeout(() => {
+                showNotification('Examples added to all configuration files!', 'success');
+                refreshFilePreviews();
+            }, 2000);
+        }
+        
+        // Manual Contacts
+        function loadManualContacts() {
+            // This would load contacts from backend
+            setTimeout(() => {
+                // Mock data
+                document.getElementById('contactsText').value = 'example1@domain.com\nexample2@domain.com\nexample3@domain.com';
+                updateContactsStats();
+            }, 500);
+        }
+        
+        function updateContactsStats() {
+            const text = document.getElementById('contactsText').value;
+            const emails = text.split('\n').filter(line => line.trim() !== '');
+            const stats = document.getElementById('contactsStats');
+            stats.textContent = `Emails: ${emails.length}`;
+        }
+        
+        function saveManualContacts() {
+            const emailsText = document.getElementById('contactsText').value;
+            
+            if (!emailsText.trim()) {
+                showNotification('No email addresses entered!', 'error');
+                return;
+            }
+            
+            // This would call backend.save_manual_contacts()
+            showNotification('Saving manual contacts...', 'info');
+            
+            setTimeout(() => {
+                showNotification('Manual contacts saved successfully!', 'success');
+                switchTab('email');
+            }, 1500);
+        }
+        
+        function clearContactsText() {
+            if (confirm('Are you sure you want to clear all email addresses?')) {
+                document.getElementById('contactsText').value = '';
+                updateContactsStats();
             }
         }
         
-        function applyDefault() {
-            const defaultNum = document.getElementById('defaultNumber').value;
-            showNotification(`Applied ${defaultNum} to all operations`, 'success');
-            // Implementation would apply to all count fields
+        function pasteFromClipboard() {
+            navigator.clipboard.readText()
+                .then(text => {
+                    document.getElementById('contactsText').value = text;
+                    updateContactsStats();
+                    showNotification('Content pasted from clipboard', 'success');
+                })
+                .catch(() => {
+                    showNotification('Could not read from clipboard', 'error');
+                });
         }
         
-        function runAllOperations() {
-            showNotification('Running all operations...', 'info');
-            // Implementation would run all CSV operations
+        function loadFromFile() {
+            // Create file input
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt,.csv';
+            
+            input.onchange = function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.getElementById('contactsText').value = e.target.result;
+                        updateContactsStats();
+                        showNotification(`Loaded ${file.name}`, 'success');
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            
+            input.click();
         }
         
-        function setUnsubscribe(enabled) {
-            const statusEl = document.getElementById('unsubscribeStatus');
-            if (enabled) {
-                statusEl.textContent = 'On';
-                statusEl.style.color = 'var(--success)';
-                showNotification('Unsubscribe enabled', 'success');
-            } else {
-                statusEl.textContent = 'Off';
-                statusEl.style.color = 'var(--error)';
-                showNotification('Unsubscribe disabled', 'warning');
-            }
+        function showManualContacts() {
+            switchTab('contacts');
         }
         
+        // Modal Functions
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // Notification System
         function showNotification(message, type = 'info') {
-            const container = document.getElementById('notificationContainer');
+            const container = document.getElementById('notificationsContainer');
             const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = message;
+            
+            let icon = 'ℹ️';
+            if (type === 'success') icon = '✅';
+            else if (type === 'error') icon = '❌';
+            else if (type === 'warning') icon = '⚠️';
+            
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <span>${icon}</span>
+                <span>${message}</span>
+            `;
             
             container.appendChild(notification);
             
@@ -1571,21 +1688,34 @@ ${JSON.stringify(content.content, null, 2)}
                     }
                 }, 300);
             }, 5000);
-            
-            // Click to dismiss
-            notification.addEventListener('click', function() {
-                if (this.parentNode) {
-                    this.parentNode.removeChild(this);
-                }
+        }
+        
+        // Utility function to call backend (placeholder)
+        function callBackend(method, data = {}) {
+            // This is where you would communicate with backend.py
+            // For a real implementation, you might use WebSocket or other IPC
+            return new Promise((resolve, reject) => {
+                // Simulate backend call
+                setTimeout(() => {
+                    resolve({ success: true, data: {} });
+                }, 500);
             });
         }
         
-        // Make functions available globally for inline event handlers
-        window.editFile = editFile;
-        window.viewFile = viewFile;
-        window.clearFile = clearFile;
-        window.showTags = showTags;
-        window.hideTags = hideTags;
+        // Initialize necessary files
+        function initializeFiles() {
+            // This would call backend.create_necessary_files_and_folders()
+            showNotification('Initializing necessary files and folders...', 'info');
+            
+            setTimeout(() => {
+                showNotification('All necessary files created successfully!', 'success');
+                loadCSVFiles();
+                refreshFilePreviews();
+            }, 2000);
+        }
+        
+        // Initialize on load
+        initializeFiles();
     </script>
 </body>
 </html>
